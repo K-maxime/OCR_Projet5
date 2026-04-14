@@ -1,11 +1,13 @@
 package com.openclassrooms.mddapi.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
+@Data
 public class Comment {
 
     @Id

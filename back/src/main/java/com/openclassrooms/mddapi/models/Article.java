@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "articles")
+@Data
 public class Article {
 
     @Id
