@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
     /**
      * Recupere le profil de l'utilisateur connecte.
      *
@@ -23,7 +30,7 @@ public class AuthController {
      */
     @GetMapping("/me")
     public ResponseEntity<?> getAuthenticatedUser() {
-        return ResponseEntity.ok("Endpoint non implémente");
+        return ResponseEntity.ok("Endpoint non implemente");
     }
 
     /**
@@ -34,7 +41,7 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto request) {
-        return ResponseEntity.ok("Endpoint non implémente");
+        return ResponseEntity.ok("Endpoint non implemente");
     }
 
     /**
@@ -45,7 +52,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequestDto request) {
-        return ResponseEntity.ok("Endpoint non implémente");
+        return ResponseEntity.ok(authService.login(request.getLogin(), request.getPassword()));
     }
 
     /**
@@ -55,6 +62,6 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public ResponseEntity<?> logoutUser() {
-        return ResponseEntity.ok("Endpoint non implémente");
+        return ResponseEntity.ok("Endpoint non implemente");
     }
 }

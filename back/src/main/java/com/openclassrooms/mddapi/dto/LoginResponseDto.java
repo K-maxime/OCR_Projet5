@@ -5,14 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO de mise a jour du profil utilisateur.
+ * DTO de reponse apres une authentification reussie.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserRequestDto {
+public class LoginResponseDto {
 
-    private String email;
+    private Long userId;
     private String username;
-    private String password;
+    private String email;
+    private String message;
 }
