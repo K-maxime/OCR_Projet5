@@ -3,9 +3,9 @@ package com.openclassrooms.mddapi.exceptions;
 /**
  * Exception levee quand aucun utilisateur ne correspond au login fourni.
  */
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundWithLoginException extends RuntimeException {
 
-    public UserNotFoundException(String login) {
+    public UserNotFoundWithLoginException(String login) {
         super("Aucun utilisateur trouve avec le login : " + login);
     }
 }

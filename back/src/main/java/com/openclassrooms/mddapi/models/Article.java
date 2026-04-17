@@ -2,6 +2,8 @@ package com.openclassrooms.mddapi.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,15 +12,18 @@ import java.util.List;
 @Entity
 @Table(name = "articles")
 @Data
+@NoArgsConstructor
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false)
     private String title;
 
+    @NonNull
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 

@@ -1,8 +1,14 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.LoginRequestDto;
+import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
+import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.responses.UserResponseDto;
 import com.openclassrooms.mddapi.services.AuthService;
+import com.openclassrooms.mddapi.services.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
  * Controleur des endpoints d'authentification.
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    private final UserService userService;
 
     /**
      * Recupere le profil de l'utilisateur connecte.
@@ -29,8 +33,9 @@ public class AuthController {
      * @return les informations de profil
      */
     @GetMapping("/me")
-    public ResponseEntity<?> getAuthenticatedUser() {
-        return ResponseEntity.ok("Endpoint non implemente");
+    public ResponseEntity<UserResponseDto> getAuthenticatedUser() {
+        //TODO update with token jwt
+        return ResponseEntity.ok(userService.getProfile(1L));
     }
 
     /**
@@ -40,8 +45,9 @@ public class AuthController {
      * @return une confirmation d'inscription
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto request) {
-        return ResponseEntity.ok("Endpoint non implemente");
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody RegisterRequestDto request) {
+        authService.register(request.getUsername(), request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     /**
@@ -51,7 +57,7 @@ public class AuthController {
      * @return le resultat d'authentification
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginRequestDto request) {
         return ResponseEntity.ok(authService.login(request.getLogin(), request.getPassword()));
     }
 

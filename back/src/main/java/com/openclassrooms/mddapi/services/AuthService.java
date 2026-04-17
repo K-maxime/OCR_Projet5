@@ -1,8 +1,9 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.dto.LoginResponseDto;
+import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.exceptions.InvalidPasswordException;
-import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
+import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,12 @@ public class AuthService {
      * @param login l'email ou le nom d'utilisateur
      * @param password le mot de passe en clair
      * @return les informations de connexion si l'authentification reussit
-     * @throws UserNotFoundException si aucun utilisateur ne correspond au login
+     * @throws UserNotFoundWithLoginException si aucun utilisateur ne correspond au login
      * @throws InvalidPasswordException si le mot de passe est incorrect
      */
     public LoginResponseDto login(String login, String password) {
         User user = userRepository.findByEmailOrUsername(login, login)
-                .orElseThrow(() -> new UserNotFoundException(login));
+                .orElseThrow(() -> new UserNotFoundWithLoginException(login));
 
         if (!user.getPassword().equals(password)) {
             throw new InvalidPasswordException();
@@ -42,5 +43,21 @@ public class AuthService {
                 user.getEmail(),
                 "Login successful"
         );
+    }
+
+    public void register(String username, String email, String password) {
+
+        User user = userRepository.findByEmailOrUsername(email, username)
+                .orElse(null);
+
+        if (user != null) {
+            throw new UserAlreadyExistsException();
+        }
+
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        userRepository.save(newUser);
     }
 }
