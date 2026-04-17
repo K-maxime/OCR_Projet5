@@ -12,8 +12,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserNotFoundWithId(UserNotFoundWithIdException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
     @ExceptionHandler(UserNotFoundWithLoginException.class)
     public ResponseEntity<String> handleUserNotFoundWithLogin(UserNotFoundWithLoginException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(SubjectNotFoundWithIdException.class)
+    public ResponseEntity<String> handleSubjectNotFoundWithId(SubjectNotFoundWithIdException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(SubscriptionNotFoundException.class)
+    public ResponseEntity<String> handleSubscriptionNotFound(SubscriptionNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
@@ -26,5 +37,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserAlreadyExists(UserAlreadyExistsException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
+
+    @ExceptionHandler(SubscriptionAlreadyExistsException.class)
+    public ResponseEntity<String> handleSubscriptionAlreadyExists(SubscriptionAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+
 
 }

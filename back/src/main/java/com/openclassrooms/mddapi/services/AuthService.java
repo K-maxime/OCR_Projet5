@@ -29,7 +29,7 @@ public class AuthService {
      * @throws UserNotFoundWithLoginException si aucun utilisateur ne correspond au login
      * @throws InvalidPasswordException si le mot de passe est incorrect
      */
-    public LoginResponseDto login(String login, String password) {
+    public User login(String login, String password) {
         User user = userRepository.findByEmailOrUsername(login, login)
                 .orElseThrow(() -> new UserNotFoundWithLoginException(login));
 
@@ -37,12 +37,7 @@ public class AuthService {
             throw new InvalidPasswordException();
         }
 
-        return new LoginResponseDto(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                "Login successful"
-        );
+        return user;
     }
 
     public void register(String username, String email, String password) {
