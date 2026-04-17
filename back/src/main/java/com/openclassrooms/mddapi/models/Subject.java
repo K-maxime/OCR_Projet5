@@ -32,7 +32,6 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Article> articles = new ArrayList<>();
 
-    // Many Subjects ← Many Users (abonnements - côté inverse)
-    @ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
-    private List<User> subscribers = new ArrayList<>();
+    @OneToMany(mappedBy = "subject")
+    private List<Subscription> subscriptions;
 }

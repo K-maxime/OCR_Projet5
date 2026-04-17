@@ -56,14 +56,8 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-    // Many Users → Many Subjects (abonnements)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "subscriptions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private List<Subject> subjects = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptions;
 
     @PrePersist
     protected void onCreate() {

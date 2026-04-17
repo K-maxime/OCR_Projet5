@@ -1,13 +1,7 @@
 package com.openclassrooms.mddapi.config;
 
-import com.openclassrooms.mddapi.models.Article;
-import com.openclassrooms.mddapi.models.Comment;
-import com.openclassrooms.mddapi.models.Subject;
-import com.openclassrooms.mddapi.models.User;
-import com.openclassrooms.mddapi.repository.ArticleRepository;
-import com.openclassrooms.mddapi.repository.CommentRepository;
-import com.openclassrooms.mddapi.repository.SubjectRepository;
-import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.models.*;
+import com.openclassrooms.mddapi.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,6 +14,7 @@ public class DataSeeder implements CommandLineRunner {
     private final SubjectRepository subjectRepository;
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
     @Override
     public void run(String... args) {
@@ -47,6 +42,17 @@ public class DataSeeder implements CommandLineRunner {
         user2.setUsername("user2");
         user2.setPassword("Password2!");
         user2 = userRepository.save(user2);
+
+        // ================= SUBSCRIPTION =================
+        Subscription sub = new Subscription();
+        sub.setUser(user1);
+        sub.setSubject(subject);
+        subscriptionRepository.save(sub);
+        sub = new Subscription();
+        sub.setUser(user2);
+        sub.setSubject(subject);
+        subscriptionRepository.save(sub);
+
 
         // ================= ARTICLE =================
         Article article = new Article();
