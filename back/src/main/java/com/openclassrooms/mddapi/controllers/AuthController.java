@@ -5,6 +5,8 @@ import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
 import com.openclassrooms.mddapi.dto.responses.UserResponseDto;
+import com.openclassrooms.mddapi.mapper.LoginMapper;
+import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.UserService;
 import jakarta.validation.Valid;
@@ -26,6 +28,9 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final UserMapper userMapper;
+    private final LoginMapper loginMapper;
+
 
     /**
      * Recupere le profil de l'utilisateur connecte.
@@ -35,7 +40,8 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getAuthenticatedUser() {
         //TODO update with token jwt
-        return ResponseEntity.ok(userService.getProfile(1L));
+
+        return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile(1L)));
     }
 
     /**
@@ -58,7 +64,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginRequestDto request) {
-        return ResponseEntity.ok(authService.login(request.getLogin(), request.getPassword()));
+        return ResponseEntity.ok().body(this.loginMapper.toDto(authService.login(request.getLogin(), request.getPassword())));
     }
 
     /**

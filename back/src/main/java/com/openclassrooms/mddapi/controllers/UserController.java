@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
     /**
      * Met a jour le profil de l'utilisateur connecte.
      *

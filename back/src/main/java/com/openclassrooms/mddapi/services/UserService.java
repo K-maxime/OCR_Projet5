@@ -15,16 +15,9 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public UserResponseDto getProfile(Long userId){
-        User user = userRepository.findById(userId)
+    public User getProfile(Long userId){
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundWithIdException(userId));
-
-        return new UserResponseDto(
-                user.getEmail(),
-                user.getUsername(),
-                user.getSubjects()
-        );
-
     }
 
     public MessageResponse updateProfile(String email, String username, String password){
