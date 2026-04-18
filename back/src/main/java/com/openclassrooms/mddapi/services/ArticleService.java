@@ -5,11 +5,13 @@ import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.exceptions.ArticleNotFoundWithIdException;
 import com.openclassrooms.mddapi.exceptions.SubjectNotFoundWithIdException;
 import com.openclassrooms.mddapi.exceptions.UnknowSortException;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.models.Subject;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
 import com.openclassrooms.mddapi.repository.SubjectRepository;
+import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,13 +24,15 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final SubjectRepository subjectRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
 
     // Récupérer tous les articles
     public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
 
-        userService.getProfile();// verifie l'existance du user
+        //TODO update with jwt token
+        userRepository.findById(1L)
+                .orElseThrow(() -> new UserNotFoundWithIdException(1L));// verifie l'existance du user
 
         if (sort == null || sort.equals("desc")) {
             return articleRepository.findArticlesByUserSubscriptionsDesc(1L);
@@ -48,7 +52,9 @@ public class ArticleService {
     // Créer un article
     public MessageResponse createArticle(CreateArticleRequestDto dto) {
 
-        User author = userService.getProfile();;
+         //TODO update with jwt token
+        User author = userRepository.findById(1L)
+                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
 
         Subject subject = subjectRepository.findById(dto.getSubjectId())
                 .orElseThrow(() -> new SubjectNotFoundWithIdException(dto.getSubjectId()));
