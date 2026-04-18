@@ -13,9 +13,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+public class UserDetailResponseDto {
 
     private String email;
     private String username;
+    private List<Subject> subjects;
 
 }

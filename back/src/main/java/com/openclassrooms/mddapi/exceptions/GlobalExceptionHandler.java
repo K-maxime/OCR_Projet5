@@ -28,6 +28,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+    @ExceptionHandler(ArticleNotFoundWithIdException.class)
+    public ResponseEntity<String> handleArticleNotFoundWithId(ArticleNotFoundWithIdException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UnknowSortException.class)
+    public ResponseEntity<String> handleUnknowSort(UnknowSortException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> handleInvalidPassword(InvalidPasswordException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());

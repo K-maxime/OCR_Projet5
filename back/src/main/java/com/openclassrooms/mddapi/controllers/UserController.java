@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dto.UpdateUserRequestDto;
+import com.openclassrooms.mddapi.dto.request.UpdateUserRequestDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.services.UserService;
 import jakarta.validation.Valid;

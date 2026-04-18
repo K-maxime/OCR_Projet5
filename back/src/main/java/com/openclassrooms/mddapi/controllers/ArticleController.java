@@ -1,7 +1,13 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dto.CreateArticleRequestDto;
-import com.openclassrooms.mddapi.dto.CreateCommentRequestDto;
+import com.openclassrooms.mddapi.dto.request.CreateArticleRequestDto;
+import com.openclassrooms.mddapi.dto.request.CreateCommentRequestDto;
+import com.openclassrooms.mddapi.dto.responses.ArticleResponseDto;
+import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+import com.openclassrooms.mddapi.mapper.ArticleMapper;
+import com.openclassrooms.mddapi.services.ArticleService;
+import com.openclassrooms.mddapi.services.CommentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Controleur des endpoints d'articles.
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/articles")
 public class ArticleController {
+
+    private final ArticleService articleService;
+    private final CommentService commentService;
+    private final ArticleMapper articleMapper;
 
     /**
      * Recupere le fil d'actualite des articles.
@@ -25,8 +38,8 @@ public class ArticleController {
      * @return la liste des articles
      */
     @GetMapping
-    public ResponseEntity<?> getArticles(@RequestParam(required = false) String sort) {
-        return ResponseEntity.ok("Endpoint non implémente");
+    public ResponseEntity<List<ArticleResponseDto>> getArticles(@RequestParam(required = false) String sort) {
+        return ResponseEntity.ok().body(this.articleMapper.toDto(articleService.getAllArticles(sort)));
     }
 
     /**
@@ -36,8 +49,8 @@ public class ArticleController {
      * @return le detail de l'article
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getArticle(@PathVariable Long id) {
-        return ResponseEntity.ok("Endpoint non implémente");
+    public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id) {
+        return ResponseEntity.ok().body(this.articleMapper.toDto(articleService.getArticleById(id)));
     }
 
     /**
@@ -47,8 +60,8 @@ public class ArticleController {
      * @return l'article cree
      */
     @PostMapping
-    public ResponseEntity<?> createArticle(@RequestBody CreateArticleRequestDto request) {
-        return ResponseEntity.ok("Endpoint non implémente");
+    public ResponseEntity<MessageResponse> createArticle(@RequestBody CreateArticleRequestDto request) {
+        return ResponseEntity.ok(this.articleService.createArticle(request));
     }
 
     /**
@@ -59,7 +72,7 @@ public class ArticleController {
      * @return le commentaire cree
      */
     @PostMapping("/{id}/comments")
-    public ResponseEntity<?> createArticleComment(@PathVariable Long id, @RequestBody CreateCommentRequestDto request) {
-        return ResponseEntity.ok("Endpoint non implémente");
+    public ResponseEntity<MessageResponse> createArticleComment(@PathVariable Long id, @RequestBody CreateCommentRequestDto request) {
+        return ResponseEntity.ok(this.commentService.createComment(id, request));
     }
 }

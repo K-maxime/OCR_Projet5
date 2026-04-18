@@ -1,10 +1,10 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dto.LoginRequestDto;
+import com.openclassrooms.mddapi.dto.request.LoginRequestDto;
 import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
-import com.openclassrooms.mddapi.dto.RegisterRequestDto;
-import com.openclassrooms.mddapi.dto.responses.UserResponseDto;
+import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.responses.UserDetailResponseDto;
 import com.openclassrooms.mddapi.mapper.LoginMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.services.AuthService;
@@ -38,7 +38,7 @@ public class AuthController {
      * @return les informations de profil
      */
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDto> getAuthenticatedUser() {
+    public ResponseEntity<UserDetailResponseDto> getAuthenticatedUser() {
         //TODO update with token jwt
 
         return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile(1L)));
@@ -73,7 +73,7 @@ public class AuthController {
      * @return une confirmation de deconnexion
      */
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser() {
-        return ResponseEntity.ok("Endpoint non implemente");
+    public ResponseEntity<MessageResponse> logoutUser() {
+        return ResponseEntity.ok(this.authService.logoutUser());
     }
 }

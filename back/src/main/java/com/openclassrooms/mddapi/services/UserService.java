@@ -1,7 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
-import com.openclassrooms.mddapi.dto.responses.UserResponseDto;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;

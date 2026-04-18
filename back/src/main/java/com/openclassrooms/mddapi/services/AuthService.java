@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
+import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.exceptions.InvalidPasswordException;
 import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginException;
@@ -38,6 +39,15 @@ public class AuthService {
         }
 
         return user;
+    }
+
+    /**
+     * Logout user (simple version sans JWT).
+     * En prod avec JWT, tu invaliderais le token côté client.
+     */
+    public MessageResponse logoutUser() {
+        //TODO update with token jwt
+        return new MessageResponse("Déconnexion réussie");
     }
 
     public void register(String username, String email, String password) {

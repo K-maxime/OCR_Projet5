@@ -1,18 +1,16 @@
-package com.openclassrooms.mddapi.dto;
+package com.openclassrooms.mddapi.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO de creation d'article.
+ * DTO de creation de commentaire.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateArticleRequestDto {
+public class CreateCommentRequestDto {
 
-    private Long subjectId;
-    private String title;
     private String content;
 }
