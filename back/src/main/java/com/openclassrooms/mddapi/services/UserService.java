@@ -14,16 +14,16 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public User getProfile(Long userId){
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
+    public User getProfile(){
+        //TODO update with jwt token
+        return userRepository.findById(1L)
+                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
     }
 
     public MessageResponse updateProfile(String email, String username, String password){
 
         //TODO update with jwt token
-        User oldUser = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        User oldUser = getProfile();
 
         User nexUser = new User();
         nexUser.setEmail(email);

@@ -41,7 +41,7 @@ public class AuthController {
     public ResponseEntity<UserDetailResponseDto> getAuthenticatedUser() {
         //TODO update with token jwt
 
-        return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile(1L)));
+        return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile()));
     }
 
     /**
