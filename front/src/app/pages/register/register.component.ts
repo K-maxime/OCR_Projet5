@@ -1,14 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, inject} from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterRequest } from 'src/app/core/models/registerRequest.interface';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { MaterialModule } from '../shared/material.module';
 
  
 @Component({
@@ -16,13 +11,9 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   imports: [
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatButtonModule, 
-    MatIconModule, 
-    MatSelectModule, 
-    MatCardModule,
-    ReactiveFormsModule],
+    MaterialModule,
+    ReactiveFormsModule
+  ],
 })
 export class RegisterComponent {
 

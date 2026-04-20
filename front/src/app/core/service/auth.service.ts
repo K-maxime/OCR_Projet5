@@ -22,4 +22,8 @@ export class AuthService {
   public register(RegisterRequest: RegisterRequest): Observable<void> {
     return this.httpClient.post<void>(`${this.pathService}/register`, RegisterRequest);
   }
+
+  public logout(): Observable<void> {
+    return this.httpClient.post<void>(`${this.pathService}/logout`, {});
+  }
 }

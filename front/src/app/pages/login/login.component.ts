@@ -4,25 +4,14 @@ import { LoginRequest } from 'src/app/core/models/loginRequest.interface';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
+import { MaterialModule } from '../shared/material.module';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   imports: [
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatButtonModule, 
-    MatIconModule, 
-    MatSelectModule, 
-    MatCardModule,
+    MaterialModule,
     ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

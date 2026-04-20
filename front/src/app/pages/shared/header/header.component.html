@@ -1,1 +1,13 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <div class="toolbar-container">
+      
+    <div class="buttons-container">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        <!-- TODO ajout If sur l'affichage des autre bouton en fonction de l'etat de connection -->
+        <button mat-button (click)="logout()">Se deconnecter</button>
+        <button mat-button (click)="goToFeed()">Articles</button>
+        <button mat-button (click)="goToSubjects()">Thèmes</button>
+        <button mat-button (click)="goToUser()">Profile</button>
+    </div>
+  </div>
+</mat-toolbar>

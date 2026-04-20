@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   register() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/register']);
   }
 
   login() {
