@@ -23,15 +23,13 @@ public class UserService {
     public MessageResponse updateProfile(String email, String username, String password){
 
         //TODO update with jwt token
-        User oldUser = getProfile();
+        User user = getProfile();
 
-        User nexUser = new User();
-        nexUser.setEmail(email);
-        nexUser.setUsername(username);
-        nexUser.setPassword(password);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(password);
 
-        userRepository.delete(oldUser);
-        userRepository.save(nexUser);
+        userRepository.save(user);
 
         return new MessageResponse("User updated successfully!");
 
