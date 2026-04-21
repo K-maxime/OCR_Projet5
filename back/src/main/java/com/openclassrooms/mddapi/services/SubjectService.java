@@ -1,10 +1,9 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.responses.SubjectResponseDto;
-import com.openclassrooms.mddapi.exceptions.SubjectNotFoundWithIdException;
+import com.openclassrooms.mddapi.exceptions.UnknowSortException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
 import com.openclassrooms.mddapi.mapper.SubjectMapper;
-import com.openclassrooms.mddapi.models.Subject;
 import com.openclassrooms.mddapi.repository.SubjectRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -13,6 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/**
+ * Service métier pour la gestion des thèmes.
+ *
+ * Gère :
+ * - La recherche des articles
+ */
 @Service
 @RequiredArgsConstructor
 public class SubjectService {
@@ -23,6 +29,11 @@ public class SubjectService {
     private final SubscriptionRepository subscriptionRepository;
 
 
+    /**
+     * Retourne la liste des thèmes en indiquant l'abonnement ou non de l'utilisateur.
+     *
+     * @return une liste l'objet thèmes
+     */
     public List<SubjectResponseDto> getSubjects() {
 
          //TODO update with jwt token

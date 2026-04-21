@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.controllers;
 import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
 import com.openclassrooms.mddapi.dto.request.UpdateUserRequestDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+import com.openclassrooms.mddapi.exceptions.UnknowSortException;
 import com.openclassrooms.mddapi.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controleur des endpoints utilisateur.
+ * Contrôleur REST pour la gestion du profil de l'utilisateur.
+ *
+ * Fournit les endpoints pour :
+ * - La liste des informations de l'utilisateur
+ *
+ *  Tous les endpoints nécessitent une authentification JWT.
  */
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +36,12 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Met à jour la liste des informations de l'utilisateur.
+     *
+     * @param request contenant email, username et password
+     * @return MessageResponse message de confirmation
+     */
     @Operation(summary = "Update the current user informations",
             description = "Update the current user informations (username / email / password)")
     @SecurityRequirement(name = "bearerAuth")

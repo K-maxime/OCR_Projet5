@@ -2,10 +2,7 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.request.CreateArticleRequestDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
-import com.openclassrooms.mddapi.exceptions.ArticleNotFoundWithIdException;
-import com.openclassrooms.mddapi.exceptions.SubjectNotFoundWithIdException;
-import com.openclassrooms.mddapi.exceptions.UnknowSortException;
-import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
+import com.openclassrooms.mddapi.exceptions.*;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.models.Subject;
 import com.openclassrooms.mddapi.models.User;
@@ -18,6 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ * Service métier pour la gestion des articles.
+ *
+ * Gère :
+ * - L'enregistrement de nouveaux articles et commentaires
+ * - La recherche des articles
+ */
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -27,7 +31,13 @@ public class ArticleService {
     private final UserRepository userRepository;
 
 
-    // Récupérer tous les articles
+    /**
+     * Retourne la liste des articles dans l'ordre choisi par l'utilisateur.
+     *
+     * @param sort paramètre optionnel contenant le type de tri ascendant ou descendant
+     * @return une liste l'objet Article
+     * @throws UnknowSortException si le type de tri n'est pas reconnu
+     */
     public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
 
         //TODO update with jwt token
@@ -43,13 +53,25 @@ public class ArticleService {
         }
     }
 
-    // Récupérer un article par ID
+    /**
+     * Retourne l'article demandé par son Id.
+     *
+     * @param id identifiant de l'article à récupérer
+     * @return l'objet Article
+     * @throws SubjectNotFoundWithIdException si le thème de l'article n'est pas trouvé
+     */
     public Article getArticleById(Long id) {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new ArticleNotFoundWithIdException(id));
     }
 
-    // Créer un article
+    /**
+     * Crée et enregistre un nouvel article..
+     *
+     * @param dto DTO contenant (subjectId ,title ,content)
+     * @return un message de confirmation
+     * @throws SubjectNotFoundWithIdException si le thème de l'article n'est pas trouvé
+     */
     public MessageResponse createArticle(CreateArticleRequestDto dto) {
 
          //TODO update with jwt token

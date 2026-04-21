@@ -13,6 +13,12 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service métier pour la gestion des commentaires
+ *
+ * Gère :
+ * - La création des commentaires
+ */
 @Service
 @RequiredArgsConstructor
 public class CommentService {

@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.responses.SubjectResponseDto;
+import com.openclassrooms.mddapi.exceptions.UnknowSortException;
 import com.openclassrooms.mddapi.services.SubjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Controleur des endpoints de themes.
+ * Contrôleur REST pour la gestion des thèmes.
+ *
+ * Fournit les endpoints pour :
+ * - La liste des thèmes
+ *
+ *  Tous les endpoints nécessitent une authentification JWT.
  */
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +32,11 @@ public class SubjectController {
 
     private final SubjectService subjectService;
 
+    /**
+     * Récupère la liste des articles avec option de tri.
+     *
+     * @return ResponseEntity contenant la liste des thèmes
+     */
     @Operation(summary = "Get all subjects", description = "return all subjects")
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {

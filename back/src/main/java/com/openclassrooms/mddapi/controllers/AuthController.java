@@ -1,7 +1,5 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dto.request.CreateArticleRequestDto;
-import com.openclassrooms.mddapi.dto.request.CreateCommentRequestDto;
 import com.openclassrooms.mddapi.dto.request.LoginRequestDto;
 import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
@@ -28,7 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controleur des endpoints d'authentification.
+ * Contrôleur REST pour la gestion de l'authentification.
+ *
+ * Fournit les endpoints pour :
+ * - L'enregistrement de nouveaux utilisateurs
+ * - La connexion et la récupération de tokens
+ * - La récupération du profil utilisateur authentifié
+ * - La déconnexion
  */
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +46,12 @@ public class AuthController {
     private final LoginMapper loginMapper;
 
 
+    /**
+     * Récupère les détails de l'utilisateur actuellement authentifié.
+     *
+     * @return ResponseEntity contenant les détails de l'utilisateur
+     * @throws UserNotFoundWithIdException si l'utilisateur n'existe pas
+     */
     @Operation(summary = "Get the current user comment",
             description = "return the user details")
     @SecurityRequirement(name = "bearerAuth")
@@ -57,6 +67,15 @@ public class AuthController {
         return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile()));
     }
 
+    /**
+     * Enregistre un nouvel utilisateur dans le système.
+     *
+     * Valide que l'email et le nom d'utilisateur ne sont pas déjà utilisés.
+     *
+     * @param request DTO contenant username, email et password
+     * @return ResponseEntity avec message de confirmation
+     * @throws UserAlreadyExistsException si l'email ou username existe déjà
+     */
     @Operation(summary = "Register a new user",
             description = "Create and publish a new user")
     @ApiResponses(value = {
@@ -72,6 +91,13 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    /**
+     * Authentifie un utilisateur avec son email/username et mot de passe.
+     *
+     * @param request DTO contenant login (email ou username) et password
+     * @return ResponseEntity contenant le token JWT et les infos utilisateur
+     * @throws UserNotFoundWithLoginOrInvalidPasswordException si login ou password invalide
+     */
     @Operation(summary = "Login a user",
             description = "Login a user and return a token")
     @ApiResponses(value = {
@@ -85,6 +111,11 @@ public class AuthController {
         return ResponseEntity.ok().body(this.loginMapper.toDto(authService.login(request.getLogin(), request.getPassword())));
     }
 
+    /**
+     * Déconnecte l'utilisateur actuellement authentifié.
+     *
+     * @return ResponseEntity avec message de confirmation
+     */
     @Operation(summary = "Logout the current user",
             description = "Logout the current user")
     @SecurityRequirement(name = "bearerAuth")
