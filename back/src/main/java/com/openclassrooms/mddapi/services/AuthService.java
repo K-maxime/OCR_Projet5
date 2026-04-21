@@ -1,10 +1,8 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
-import com.openclassrooms.mddapi.exceptions.InvalidPasswordException;
 import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
-import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginException;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginOrInvalidPasswordException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,15 +25,14 @@ public class AuthService {
      * @param login l'email ou le nom d'utilisateur
      * @param password le mot de passe en clair
      * @return les informations de connexion si l'authentification reussit
-     * @throws UserNotFoundWithLoginException si aucun utilisateur ne correspond au login
-     * @throws InvalidPasswordException si le mot de passe est incorrect
+     * @throws UserNotFoundWithLoginOrInvalidPasswordException si aucun utilisateur ne correspond au login ou si le mot de passe est incorrect
      */
     public User login(String login, String password) {
         User user = userRepository.findByEmailOrUsername(login, login)
-                .orElseThrow(() -> new UserNotFoundWithLoginException(login));
+                .orElseThrow(() -> new UserNotFoundWithLoginOrInvalidPasswordException());
 
         if (!user.getPassword().equals(password)) {
-            throw new InvalidPasswordException();
+            throw new UserNotFoundWithLoginOrInvalidPasswordException();
         }
 
         return user;
