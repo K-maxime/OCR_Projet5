@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { LoginRequest } from "../models/loginRequest.interface";
+import { RegisterRequest } from "../models/registerRequest.interface";
 import { UserInformation } from "../models/userInformation.interface";
 
 
@@ -16,5 +17,13 @@ export class AuthService {
 
   public login(loginRequest: LoginRequest): Observable<UserInformation> {
     return this.httpClient.post<UserInformation>(`${this.pathService}/login`, loginRequest);
+  }
+
+  public register(RegisterRequest: RegisterRequest): Observable<void> {
+    return this.httpClient.post<void>(`${this.pathService}/register`, RegisterRequest);
+  }
+
+  public logout(): Observable<void> {
+    return this.httpClient.post<void>(`${this.pathService}/logout`, {});
   }
 }

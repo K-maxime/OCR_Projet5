@@ -1,13 +1,33 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-group">
-    <label>Email ou nom d'utilisateur</label>
-    <input type="text" formControlName="login">
-  </div>
 
-  <div class="form-group">
-    <label>Mot de passe:</label>
-    <input type="password" formControlName="password">
-  </div>
-
-  <button type="seConnecter">Se connecter</button>
-</form>
+<div class="login">
+  <button type="button" (click)="backToHome()">Back</button>
+  <mat-card>
+    <mat-card-header>
+            <mat-card-title>Se connecter</mat-card-title>
+    </mat-card-header>
+    <form class="login-form" [formGroup]="form" (ngSubmit)="login()">
+      <mat-form-field>
+        <mat-label>Email ou nom d'utilisateur</mat-label>
+        <input matInput formControlName="login">
+      </mat-form-field>
+      <mat-form-field>
+          <mat-label>Mot de passe:</mat-label>
+          <input matInput [type]="hide() ? 'password' : 'text'"  formControlName="password" />
+          <button
+            type="button"
+            matIconButton
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Se connecter</button>
+      @if (onError) {
+          <p class="error" data-testid="error-message">An error occurred</p>
+      }
+    </form>
+  </mat-card>
+</div>

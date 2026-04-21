@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.dto;
+package com.openclassrooms.mddapi.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,54 +1,67 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/core/models/loginRequest.interface';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserInformation } from 'src/app/core/models/userInformation.interface';
+
+import { MaterialModule } from '../shared/material.module';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  imports: [
+    MaterialModule,
+    ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+
   private authService = inject(AuthService); 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+
+  public onError = false;
 
   public form = this.fb.group({
     login: [
       '',
       [
         Validators.required,
-        Validators.email
+        Validators.min(3)
       ]
     ],
     password: [
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.min(8),        
       ]
     ]
   });
   errorMessage: string = "";
   loginForm: FormGroup<any> | undefined;
 
-  public submit(): void {
+  
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
-    console.log('submit');
-    
+  public login(): void {    
     const loginRequest = this.form.value as LoginRequest;
 
     this.authService.login(loginRequest).subscribe({
       next: (response) => {
         console.log('Connexion réussie', response);
-        // TODO: redirection
+        this.router.navigate(["feed"]);
       },
-      error: (err) => {
-        this.errorMessage = 'Email ou mot de passe incorrect';
-      }
-    });
+      error: error => this.onError = true,
+    });    
+  }
+
+  backToHome(): void {
+    this.router.navigate(["home"]);
   }
 }

@@ -1,0 +1,26 @@
+<div class="register">
+  <button type="button" (click)="backToHome()">Back</button>
+  <mat-card>
+    <mat-card-header>
+            <mat-card-title>Inscription</mat-card-title>
+    </mat-card-header>
+    <form class="login-form" [formGroup]="registerForm" (ngSubmit)="register()">
+      <mat-form-field>
+        <mat-label>nom d'utilisateur</mat-label>
+        <input matInput formControlName="username">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Adresse email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput formControlName="password">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">S'inscrire'</button>
+      @if (onError) {
+          <p class="error" data-testid="error-message">An error occurred</p>
+      }
+    </form>
+  </mat-card>
+</div>

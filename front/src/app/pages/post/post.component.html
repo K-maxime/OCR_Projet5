@@ -1,0 +1,38 @@
+<button type="button" (click)="backToFeed()">Back</button>
+<div class="detailPost">
+  <mat-card class="Post">
+    @let post = (post$ | async);
+    <mat-card-header>
+          <mat-card-title>{{ post?.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-subtitle>
+      <p> Date : {{ post?.createdAt }} </p>
+      <p> Autor : {{ post?.author?.username }} </p>
+      <p> Thème : {{ post?.subject?.name }} </p>
+    </mat-card-subtitle>
+    <mat-card-content> {{ post?.content }} </mat-card-content>
+  </mat-card>
+  <mat-card class="comment">
+    <mat-card-subtitle>Commentaires</mat-card-subtitle>
+    @for (comment of post?.comments; track comment) {
+      <mat-card-content> 
+        <p>{{comment.author.username}} </p>
+        <p>{{comment.content}} </p>        
+      </mat-card-content>
+    }
+  </mat-card>
+  <mat-card class="addComment">
+    <form [formGroup]="commentForm">
+      <mat-form-field>
+        <mat-label>Ecrivez ici votre commentaire</mat-label>
+        <input matInput formControlName="content"/>
+      </mat-form-field>
+      <button matIconButton (click)="comment()" >
+          <mat-icon>send</mat-icon>
+        </button>
+    </form>
+  </mat-card>
+
+
+</div>
+

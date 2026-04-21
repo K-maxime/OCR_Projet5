@@ -1,0 +1,20 @@
+<div class="feed">  
+  <button type="button" (click)="goToCreatePost()">Créer un article</button>
+  <button type="button" (click)="switchFilter()">filter</button>
+  @for (post of (posts$ | async); track post) {  
+      <mat-card class="subject">
+        <mat-card-header>
+              <mat-card-title>{{ post.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-subtitle >
+          <p>Date : {{ post.createdAt }}</p>
+          <p>Auteur : {{ post.author.username }}</p>
+        </mat-card-subtitle>
+        <mat-card-content>
+          <p>
+            {{ post.content }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+  }
+</div>
