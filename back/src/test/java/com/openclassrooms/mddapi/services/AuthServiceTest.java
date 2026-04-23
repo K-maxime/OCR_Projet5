@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginOrInvalidPasswordException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.security.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,14 +33,18 @@ class AuthServiceTest {
     @InjectMocks
     private AuthService authService;
 
+    @InjectMocks
+    private JwtTokenProvider jwtTokenProvider;
+
     @Test
     void testLogin_WhenCredentialsAreValid_ThenReturnUser() {
         User user = buildUser(1L, "john", "john@mail.com", "Password1!");
+        String excptedToken = jwtTokenProvider.generateToken(user.getId(), user.getUsername());
         given(userRepository.findByEmailOrUsername("john", "john")).willReturn(Optional.of(user));
 
-        User result = authService.login("john", "Password1!");
+        String result = authService.login("john", "Password1!");
 
-        assertSame(user, result);
+        assertSame(excptedToken, result);
         verify(userRepository).findByEmailOrUsername("john", "john");
     }
 

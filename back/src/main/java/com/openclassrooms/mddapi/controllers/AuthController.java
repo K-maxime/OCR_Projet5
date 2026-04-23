@@ -5,7 +5,6 @@ import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
 import com.openclassrooms.mddapi.dto.responses.UserDetailResponseDto;
-import com.openclassrooms.mddapi.mapper.LoginMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.UserService;
@@ -43,7 +42,6 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
     private final UserMapper userMapper;
-    private final LoginMapper loginMapper;
 
 
     /**
@@ -108,7 +106,7 @@ public class AuthController {
     })
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser(@Valid @RequestBody LoginRequestDto request) {
-        return ResponseEntity.ok().body(this.loginMapper.toDto(authService.login(request.getLogin(), request.getPassword())));
+        return ResponseEntity.ok().body(new LoginResponseDto(authService.login(request.getLogin(), request.getPassword())));
     }
 
     /**
