@@ -8,6 +8,7 @@ import com.openclassrooms.mddapi.repository.SubjectRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class SubjectService {
     private final SubjectMapper subjectMapper;
     private final SubscriptionRepository subscriptionRepository;
 
+    @Autowired
+    private AuthenticationService authService;
 
     /**
      * Retourne la liste des thèmes en indiquant l'abonnement ou non de l'utilisateur.
@@ -36,15 +39,12 @@ public class SubjectService {
      */
     public List<SubjectResponseDto> getSubjects() {
 
-         //TODO update with jwt token
-        Long userid = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L))
-                .getId();
+        Long userId = authService.getCurrentUserId();
 
         List<SubjectResponseDto> subjects = subjectRepository.findAll().stream()
                 .map(subject -> {
                     SubjectResponseDto dto = subjectMapper.toDto(subject);
-                    dto.setSubscribed( subscriptionRepository.existsByUserIdAndSubjectId(userid, subject.getId()));
+                    dto.setSubscribed( subscriptionRepository.existsByUserIdAndSubjectId(userId, subject.getId()));
                     return dto;
                 }).toList();
 

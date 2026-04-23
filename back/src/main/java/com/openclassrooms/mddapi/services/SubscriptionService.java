@@ -9,6 +9,7 @@ import com.openclassrooms.mddapi.repository.SubjectRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -25,6 +26,9 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationService authService;
 
     /**
      * Indique si l'utilisateur est abonné à un thème donné.
@@ -47,15 +51,17 @@ public class SubscriptionService {
      */
     public MessageResponse suscribeToSubject (Long subjectId){
 
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new SubjectNotFoundWithIdException(subjectId));
-        //TODO update with jwt token
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        Long userId = authService.getCurrentUserId();
 
-        if (isSubscribed(user.getId(), subject.getId())){// vérifie si la subscription existe deja
+        if (isSubscribed(userId, subjectId)){// vérifie si la subscription existe deja
             throw new SubscriptionAlreadyExistsException();
         }
+
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new SubjectNotFoundWithIdException(subjectId));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
 
         Subscription subscription = new Subscription();
         subscription.setUser(user);
@@ -74,13 +80,9 @@ public class SubscriptionService {
      */
     public MessageResponse unsuscribeToSubject (Long subjectId) {
 
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new SubjectNotFoundWithIdException(subjectId));
-        //TODO update with jwt token
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        Long userId = authService.getCurrentUserId();
 
-        Subscription subscription = subscriptionRepository.findByUserIdAndSubjectId(user.getId(), subjectId)
+        Subscription subscription = subscriptionRepository.findByUserIdAndSubjectId(userId, subjectId)
                 .orElseThrow(() -> new SubscriptionNotFoundException(subjectId));
 
         subscriptionRepository.delete(subscription);

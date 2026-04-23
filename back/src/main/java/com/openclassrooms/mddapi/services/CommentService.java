@@ -11,6 +11,7 @@ import com.openclassrooms.mddapi.repository.ArticleRepository;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,6 +27,8 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationService authService;
 
     /**
      * Crée un nouveau commentaire pour un article donné.
@@ -36,9 +39,10 @@ public class CommentService {
      */
     public MessageResponse createComment(Long articleId, CreateCommentRequestDto dto) {
 
-         //TODO update with jwt token
-        User author = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        Long userId = authService.getCurrentUserId();
+
+        User author = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
 
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundWithIdException(articleId));

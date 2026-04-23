@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationService authService;
 
     /**
      * Récupère les informations utilisateur.
@@ -27,9 +30,9 @@ public class UserService {
      * @return User contenant les informations utilisateur
      */
     public User getProfile(){
-        //TODO update with jwt token
-        return userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        Long userId = authService.getCurrentUserId();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
     }
 
     /**
@@ -42,7 +45,6 @@ public class UserService {
      */
     public MessageResponse updateProfile(String email, String username, String password){
 
-        //TODO update with jwt token
         User user = getProfile();
 
         user.setEmail(email);

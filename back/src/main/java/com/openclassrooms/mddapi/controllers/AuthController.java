@@ -55,13 +55,10 @@ public class AuthController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User details retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/me")
     public ResponseEntity<UserDetailResponseDto> getAuthenticatedUser() {
-        //TODO update with token jwt
-
         return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile()));
     }
 
@@ -112,16 +109,11 @@ public class AuthController {
     /**
      * Déconnecte l'utilisateur actuellement authentifié.
      *
-     * @return ResponseEntity avec message de confirmation
      */
-    @Operation(summary = "Logout the current user",
-            description = "Logout the current user")
+    @Operation(summary = "Logout the current user")
     @SecurityRequirement(name = "bearerAuth")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User logout successfully")
-    })
     @PostMapping("/logout")
-    public ResponseEntity<MessageResponse> logoutUser() {
-        return ResponseEntity.ok(this.authService.logoutUser());
+    public void logout() {
+        // Rien à faire, le frontend supprime le token
     }
 }

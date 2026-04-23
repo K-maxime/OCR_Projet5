@@ -64,7 +64,6 @@ public class ArticleController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Articles retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid sort parameter - must be empty, 'asc' or 'desc'"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping
@@ -105,7 +104,6 @@ public class ArticleController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Article created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateArticleRequestDto.class))),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "404", description = "Subject not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (missing/empty fields or invalid lengths)"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
@@ -128,7 +126,6 @@ public class ArticleController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Comment created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateCommentRequestDto.class))),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "404", description = "Article not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (missing/empty fields or invalid lengths)"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")

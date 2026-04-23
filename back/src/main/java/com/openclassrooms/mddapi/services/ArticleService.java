@@ -10,6 +10,7 @@ import com.openclassrooms.mddapi.repository.ArticleRepository;
 import com.openclassrooms.mddapi.repository.SubjectRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +31,9 @@ public class ArticleService {
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationService authService;
+
 
     /**
      * Retourne la liste des articles dans l'ordre choisi par l'utilisateur.
@@ -40,15 +44,15 @@ public class ArticleService {
      */
     public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
 
-        //TODO update with jwt token
+        Long userId = authService.getCurrentUserId();
         //TODO update TU
-        userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));// verifie l'existance du user
+        userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
 
         if (sort == null || sort.equals("desc")) {
-            return articleRepository.findArticlesByUserSubscriptionsDesc(1L);
+            return articleRepository.findArticlesByUserSubscriptionsDesc(userId);
         } else if (sort.equals("asc")) {
-            return articleRepository.findArticlesByUserSubscriptionsAsc(1L);
+            return articleRepository.findArticlesByUserSubscriptionsAsc(userId);
         } else {
             throw new UnknowSortException(sort);
         }
@@ -75,9 +79,10 @@ public class ArticleService {
      */
     public MessageResponse createArticle(CreateArticleRequestDto dto) {
 
-         //TODO update with jwt token
-        User author = userRepository.findById(1L)
-                .orElseThrow(() -> new UserNotFoundWithIdException(1L));
+        Long userId = authService.getCurrentUserId();
+
+        User author = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundWithIdException(userId));
 
         Subject subject = subjectRepository.findById(dto.getSubjectId())
                 .orElseThrow(() -> new SubjectNotFoundWithIdException(dto.getSubjectId()));

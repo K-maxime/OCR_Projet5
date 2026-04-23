@@ -48,7 +48,6 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User updated successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateUserRequestDto.class))),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (missing/empty fields or invalid lengths)"),
 

@@ -41,7 +41,6 @@ public class SubjectController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Subjects retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping
