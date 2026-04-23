@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../shared/material.module';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SubjectService } from 'src/app/core/service/subject.service';
+import { SubjectService } from '@app/core/service/subject.service';
 import { Observable } from 'rxjs';
 import { Subject } from 'src/app/core/models/subjects.interface';
 import { AsyncPipe } from '@angular/common';

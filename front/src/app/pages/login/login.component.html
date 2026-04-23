@@ -8,11 +8,11 @@
     <form class="login-form" [formGroup]="form" (ngSubmit)="login()">
       <mat-form-field>
         <mat-label>Email ou nom d'utilisateur</mat-label>
-        <input matInput formControlName="login">
+        <input matInput formControlName="login" data-testid="login-input">
       </mat-form-field>
       <mat-form-field>
           <mat-label>Mot de passe:</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'"  formControlName="password" />
+          <input matInput [type]="hide() ? 'password' : 'text'"  formControlName="password" data-testid="password-input" />
           <button
             type="button"
             matIconButton
@@ -24,9 +24,9 @@
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Se connecter</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" data-testid="login-button">Se connecter</button>
       @if (onError) {
-          <p class="error" data-testid="error-message">An error occurred</p>
+          <p class="error" data-testid="error-message" data-testid="error-message">An error occurred</p>
       }
     </form>
   </mat-card>

@@ -41,6 +41,7 @@ public class ArticleService {
     public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
 
         //TODO update with jwt token
+        //TODO update TU
         userRepository.findById(1L)
                 .orElseThrow(() -> new UserNotFoundWithIdException(1L));// verifie l'existance du user
 

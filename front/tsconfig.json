@@ -18,7 +18,16 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "types": ["jest", "node"],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@environments/*": ["src/environments/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@core/*": ["src/app/core/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

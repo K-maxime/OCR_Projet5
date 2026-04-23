@@ -2,10 +2,10 @@ import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../shared/material.module';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/core/service/user.service';
-import { RegisterRequest } from 'src/app/core/models/registerRequest.interface';
-import { Subject } from 'src/app/core/models/subjects.interface';
-import { SubjectService } from 'src/app/core/service/subject.service';
+import { UserService } from '../../core/service/user.service';
+import { RegisterRequest } from '../../core/models/registerRequest.interface';
+import { Subject } from '../../core/models/subjects.interface';
+import { SubjectService } from '../../core/service/subject.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
@@ -26,7 +26,12 @@ export class UserComponent {
   public subjects$: Observable<Subject[]> = this.subjectService.getSubjects();  
 
   public profileForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', 
+        [
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(50),
+        ]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', 
         [
@@ -67,10 +72,12 @@ export class UserComponent {
 
   unsubscribe(id: number) : void{
     this.subjectService.unsubscribe(id).subscribe({
-        next: (_: void) => {
-          location.reload();
-        },  
+        next: (_: void) => this.reloadPage(),  
     });
+  }
+
+  reloadPage(): void {
+    location.reload();
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../shared/material.module';
 import { AsyncPipe } from '@angular/common';
-import { PostService } from 'src/app/core/service/post.service';
+import { PostService } from '@app/core/service/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from 'src/app/core/models/post.interface';
 import { Observable } from 'rxjs';

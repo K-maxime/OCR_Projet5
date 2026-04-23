@@ -2,7 +2,7 @@ import { Component, inject} from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterRequest } from 'src/app/core/models/registerRequest.interface';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '@app/core/service/auth.service';
 import { MaterialModule } from '../shared/material.module';
 
  

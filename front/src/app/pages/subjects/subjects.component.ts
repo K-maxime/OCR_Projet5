@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../shared/material.module';
 import { AsyncPipe } from '@angular/common';
-import { SubjectService } from 'src/app/core/service/subject.service';
+import { SubjectService } from '@app/core/service/subject.service';
 import { Observable } from 'rxjs';
 import { Subject } from 'src/app/core/models/subjects.interface';
 
