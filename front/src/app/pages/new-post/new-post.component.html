@@ -1,5 +1,5 @@
 <div class="new_post">
-  <button type="button" (click)="backToFeed()">Back</button>
+  <button type="button" (click)="backToFeed()" data-testid="back-button">Back</button>
   <mat-card>
     <mat-card-header>
       <mat-card-title>Créer un nouvel post</mat-card-title>
@@ -7,7 +7,7 @@
     <form class="login-form" [formGroup]="postForm" (ngSubmit)="create()">
       <mat-form-field>
         <mat-label>Sélectionner un thème</mat-label>
-        <mat-select formControlName="subject">
+        <mat-select formControlName="subject" data-testid="subject-select">
           @for (subject of (subjects$ | async); track subject) {
             <mat-option [value]="subject.id">{{ subject.name }}</mat-option>
           }
@@ -15,13 +15,13 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Titre post</mat-label>
-        <input matInput formControlName="title">
+        <input matInput formControlName="title" data-testid="title-input">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Contenue post</mat-label>
-        <input matInput formControlName="content">
+        <input matInput formControlName="content" data-testid="content-input">
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">Créer'</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid" data-testid="create-button">Créer'</button>
       @if (onError) {
           <p class="error" data-testid="error-message">An error occurred</p>
       }

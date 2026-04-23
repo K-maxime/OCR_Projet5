@@ -1,8 +1,8 @@
 <div class="feed">  
-  <button type="button" (click)="goToCreatePost()">Créer un article</button>
-  <button type="button" (click)="switchFilter()">filter</button>
+  <button type="button" (click)="goToCreatePost()" data-testid="create-post-button">Créer un article</button>
+  <button type="button" (click)="switchFilter()" data-testid="filter-button">filter</button>
   @for (post of (posts$ | async); track post) {  
-      <mat-card class="subject">
+      <mat-card class="subject" data-testid="post-item">
         <mat-card-header>
               <mat-card-title>{{ post.title }}</mat-card-title>
         </mat-card-header>

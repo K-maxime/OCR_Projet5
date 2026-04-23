@@ -4,10 +4,10 @@
     <div class="buttons-container">
         <img src="assets/logo.png" alt="Logo" class="logo">
         <!-- TODO ajout If sur l'affichage des autre bouton en fonction de l'etat de connection -->
-        <button mat-button (click)="logout()">Se deconnecter</button>
-        <button mat-button (click)="goToFeed()">Articles</button>
-        <button mat-button (click)="goToSubjects()">Thèmes</button>
-        <button mat-button (click)="goToUser()">Profile</button>
+        <button mat-button (click)="logout()" data-testid="logout-button">Se deconnecter</button>
+        <button mat-button (click)="goToFeed()" data-testid="post-button">Articles</button>
+        <button mat-button (click)="goToSubjects()" data-testid="subject-button">Thèmes</button>
+        <button mat-button (click)="goToUser()" data-testid="user-button">Profile</button>
     </div>
   </div>
 </mat-toolbar>
