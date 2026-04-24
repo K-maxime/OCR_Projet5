@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import { LoginRequest } from "../models/loginRequest.interface";
 import { RegisterRequest } from "../models/registerRequest.interface";
-import { UserInformation } from "../models/userInformation.interface";
+import { LoginResponse } from "../models/loginResponse.interface";
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -12,18 +13,32 @@ import { UserInformation } from "../models/userInformation.interface";
 export class AuthService {
 
   private pathService = 'http://localhost:9090/api/auth';
+  
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,  private router: Router) { }
 
-  public login(loginRequest: LoginRequest): Observable<UserInformation> {
-    return this.httpClient.post<UserInformation>(`${this.pathService}/login`, loginRequest);
+  public login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.httpClient.post<LoginResponse>(`${this.pathService}/login`, loginRequest).pipe(
+      tap((response: LoginResponse) => {
+        // Stocker le token
+        sessionStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true);
+      }));
   }
 
   public register(RegisterRequest: RegisterRequest): Observable<void> {
     return this.httpClient.post<void>(`${this.pathService}/register`, RegisterRequest);
   }
 
-  public logout(): Observable<void> {
-    return this.httpClient.post<void>(`${this.pathService}/logout`, {});
+  public logout(): void {
+    sessionStorage.removeItem('token');
+    this.isAuthenticatedSubject.next(false);
+    this.router.navigate(['/home']);
+  }
+
+    private hasToken(): boolean {
+    return !!sessionStorage.getItem('token');
   }
 }

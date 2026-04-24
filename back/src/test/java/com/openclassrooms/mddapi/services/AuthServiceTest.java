@@ -39,7 +39,7 @@ class AuthServiceTest {
     @Test
     void testLogin_WhenCredentialsAreValid_ThenReturnUser() {
         User user = buildUser(1L, "john", "john@mail.com", "Password1!");
-        String excptedToken = jwtTokenProvider.generateToken(user.getId(), user.getUsername());
+        String excptedToken = jwtTokenProvider.generateToken(user.getUsername());
         given(userRepository.findByEmailOrUsername("john", "john")).willReturn(Optional.of(user));
 
         String result = authService.login("john", "Password1!");

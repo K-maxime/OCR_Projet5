@@ -1,4 +1,4 @@
-export interface UserInformation { //TODO to be update with security
+export interface UserInformation { 
     userId: number;
     username: string;
     email: string;
