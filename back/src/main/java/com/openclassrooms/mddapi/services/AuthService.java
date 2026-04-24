@@ -44,11 +44,12 @@ public class AuthService {
                 .orElseThrow(() -> new UserNotFoundWithLoginOrInvalidPasswordException());
 
         if (!passwordEncoder.matches(password, user.getPassword())){
+            System.out.println("mot de passe incorrect");
             throw new UserNotFoundWithLoginOrInvalidPasswordException();
         }
 
         // Générer le JWT
-        return jwtTokenProvider.generateToken(user.getId(), user.getUsername());
+        return jwtTokenProvider.generateToken(user.getUsername());
 
     }
 

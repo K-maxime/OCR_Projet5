@@ -28,39 +28,21 @@ public class JwtTokenProvider {
     /**
      * Génère un JWT pour un utilisateur donné.
      *
-     * @param userId ID de l'utilisateur
      * @param username Nom d'utilisateur
      * @return Token JWT signé
      */
-    public String generateToken(Long userId, String username) {
+    public String generateToken( String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
-                .setSubject(String.valueOf(userId))
-                .claim("username", username)
+                .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
-    }
-
-    /**
-     * Extrait l'ID utilisateur d'un JWT.
-     *
-     * @param token Token JWT
-     * @return ID utilisateur
-     */
-    public Long getUserIdFromToken(String token) {
-        try {
-            Claims claims = getClaimsFromToken(token);
-            return Long.parseLong(claims.getSubject());
-        } catch (Exception e) {
-            log.error("Erreur lors de l'extraction de l'ID utilisateur du token: {}", e.getMessage());
-            return null;
-        }
     }
 
     /**
@@ -72,7 +54,7 @@ public class JwtTokenProvider {
     public String getUsernameFromToken(String token) {
         try {
             Claims claims = getClaimsFromToken(token);
-            return claims.get("username", String.class);
+            return claims.getSubject();  // Username est maintenant en Subject
         } catch (Exception e) {
             log.error("Erreur lors de l'extraction du username du token: {}", e.getMessage());
             return null;
