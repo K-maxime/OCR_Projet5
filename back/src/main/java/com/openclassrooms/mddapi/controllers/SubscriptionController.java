@@ -44,7 +44,6 @@ public class SubscriptionController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "subscription with subject created successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Subject not found"),
             @ApiResponse(responseCode = "400", description = "Subscription already exists"),
@@ -68,7 +67,6 @@ public class SubscriptionController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Unsubscription with subject created successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Subject not found"),
             @ApiResponse(responseCode = "404", description = "subscription not found"),

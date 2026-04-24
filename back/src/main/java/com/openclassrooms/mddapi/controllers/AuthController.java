@@ -5,7 +5,6 @@ import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
 import com.openclassrooms.mddapi.dto.responses.MessageResponse;
 import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
 import com.openclassrooms.mddapi.dto.responses.UserDetailResponseDto;
-import com.openclassrooms.mddapi.mapper.LoginMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.UserService;
@@ -43,7 +42,6 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
     private final UserMapper userMapper;
-    private final LoginMapper loginMapper;
 
 
     /**
@@ -57,13 +55,10 @@ public class AuthController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User details retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),  // TODO Temporaire avant JWT
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @GetMapping("/me")
     public ResponseEntity<UserDetailResponseDto> getAuthenticatedUser() {
-        //TODO update with token jwt
-
         return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile()));
     }
 
@@ -108,22 +103,17 @@ public class AuthController {
     })
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser(@Valid @RequestBody LoginRequestDto request) {
-        return ResponseEntity.ok().body(this.loginMapper.toDto(authService.login(request.getLogin(), request.getPassword())));
+        return ResponseEntity.ok().body(new LoginResponseDto(authService.login(request.getLogin(), request.getPassword())));
     }
 
     /**
      * Déconnecte l'utilisateur actuellement authentifié.
      *
-     * @return ResponseEntity avec message de confirmation
      */
-    @Operation(summary = "Logout the current user",
-            description = "Logout the current user")
+    @Operation(summary = "Logout the current user")
     @SecurityRequirement(name = "bearerAuth")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User logout successfully")
-    })
     @PostMapping("/logout")
-    public ResponseEntity<MessageResponse> logoutUser() {
-        return ResponseEntity.ok(this.authService.logoutUser());
+    public void logout() {
+        // Rien à faire, le frontend supprime le token
     }
 }

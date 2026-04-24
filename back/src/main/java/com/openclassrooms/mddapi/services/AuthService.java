@@ -1,10 +1,14 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+
 import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginOrInvalidPasswordException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,42 +20,37 @@ import org.springframework.stereotype.Service;
  * - La connexion/déconnexion
  */
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
+
 
     /**
      * Authentifie un utilisateur à partir de son email ou nom d'utilisateur.
      *
      * @param login l'email ou le nom d'utilisateur de l'utilisateur
      * @param password le mot de passe
-     * @return l'objet User si l'authentification réussit
+     * @return le token JWT si l'authentification est réussie
      * @throws UserNotFoundWithLoginOrInvalidPasswordException si aucun utilisateur ne correspond au login
      *         ou si le mot de passe est incorrect
      */
-    public User login(String login, String password) {
+    public String login(String login, String password) {
         User user = userRepository.findByEmailOrUsername(login, login)
                 .orElseThrow(() -> new UserNotFoundWithLoginOrInvalidPasswordException());
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())){
+            System.out.println("mot de passe incorrect");
             throw new UserNotFoundWithLoginOrInvalidPasswordException();
         }
 
-        return user;
-    }
+        // Générer le JWT
+        return jwtTokenProvider.generateToken(user.getUsername());
 
-    /**
-     * Déconnecte l'utilisateur actuellement authentifié.
-     *
-     * @return MessageResponse contenant le message de confirmation
-     */
-    public MessageResponse logoutUser() {
-        //TODO update with token jwt
-        return new MessageResponse("Déconnexion réussie");
     }
 
     /**
@@ -76,7 +75,7 @@ public class AuthService {
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setUsername(username);
-        newUser.setPassword(password);
+        newUser.setPassword(passwordEncoder.encode(password));
         userRepository.save(newUser);
     }
 }

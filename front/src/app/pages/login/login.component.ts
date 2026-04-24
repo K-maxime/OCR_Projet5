@@ -54,7 +54,6 @@ export class LoginComponent {
 
     this.authService.login(loginRequest).subscribe({
       next: (response) => {
-        console.log('Connexion réussie', response);
         this.router.navigate(["feed"]);
       },
       error: error => this.onError = true,

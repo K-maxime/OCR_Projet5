@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginOrInvalidPasswordException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.security.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,14 +33,18 @@ class AuthServiceTest {
     @InjectMocks
     private AuthService authService;
 
+    @InjectMocks
+    private JwtTokenProvider jwtTokenProvider;
+
     @Test
     void testLogin_WhenCredentialsAreValid_ThenReturnUser() {
         User user = buildUser(1L, "john", "john@mail.com", "Password1!");
+        String excptedToken = jwtTokenProvider.generateToken(user.getUsername());
         given(userRepository.findByEmailOrUsername("john", "john")).willReturn(Optional.of(user));
 
-        User result = authService.login("john", "Password1!");
+        String result = authService.login("john", "Password1!");
 
-        assertSame(user, result);
+        assertSame(excptedToken, result);
         verify(userRepository).findByEmailOrUsername("john", "john");
     }
 
@@ -104,30 +109,6 @@ class AuthServiceTest {
         verify(userRepository, never()).save(any(User.class));
     }
 
-    @Test
-    void testLogoutUser_WhenCalled_ThenReturnSuccessMessage() {
-        MessageResponse response = authService.logoutUser();
-
-        assertNotNull(response);
-        assertEquals("Déconnexion réussie", response.getMessage());
-    }
-
-    @Test
-    void testLogoutUser_WhenCalledTwice_ThenAlwaysReturnSuccessMessage() {
-        MessageResponse firstResponse = authService.logoutUser();
-        MessageResponse secondResponse = authService.logoutUser();
-
-        assertEquals("Déconnexion réussie", firstResponse.getMessage());
-        assertEquals("Déconnexion réussie", secondResponse.getMessage());
-    }
-
-    @Test
-    void testLogoutUser_WhenCalled_ThenDoNotInteractWithRepository() {
-        authService.logoutUser();
-
-        verify(userRepository, never()).findById(any());
-        verify(userRepository, never()).save(any(User.class));
-    }
 
     private User buildUser(Long id, String username, String email, String password) {
         User user = new User();

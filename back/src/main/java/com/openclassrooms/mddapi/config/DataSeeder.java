@@ -3,7 +3,9 @@ package com.openclassrooms.mddapi.config;
 import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +17,9 @@ public class DataSeeder implements CommandLineRunner {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -33,14 +38,14 @@ public class DataSeeder implements CommandLineRunner {
         User user1 = new User();
         user1.setEmail("user1@test.com");
         user1.setUsername("user1");
-        user1.setPassword("Password1!");
+        user1.setPassword(passwordEncoder.encode("Password1!"));
 
         user1 = userRepository.save(user1);
 
         User user2 = new User();
         user2.setEmail("user2@test.com");
         user2.setUsername("user2");
-        user2.setPassword("Password2!");
+        user2.setPassword(passwordEncoder.encode("Password2!"));
         user2 = userRepository.save(user2);
 
         // ================= SUBSCRIPTION =================
