@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../shared/material.module';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { PostService } from '@app/core/service/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from 'src/app/core/models/post.interface';
@@ -13,7 +13,8 @@ import { CommentRequest } from 'src/app/core/models/commentRequest.interface';
   selector: 'app-post',
   imports: [
     MaterialModule, 
-    AsyncPipe],
+    AsyncPipe,
+    DatePipe],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
 })

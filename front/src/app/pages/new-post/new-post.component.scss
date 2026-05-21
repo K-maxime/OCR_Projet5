@@ -1,0 +1,293 @@
+// Variables
+$spacing-unit: 8px;
+$transition-duration: 250ms;
+$transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+$primary-color: #7c3aed;
+
+// ============================================
+// CONTAINER
+// ============================================
+
+.new_post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: $spacing-unit * 4;
+  background-color: #fafafa;
+}
+
+// ============================================
+// BACK BUTTON
+// ============================================
+
+.new_post > button:first-child {
+  align-self: flex-start;
+  margin-bottom: $spacing-unit * 4;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color $transition-duration $transition-easing;
+
+  &:hover {
+    color: #666;
+  }
+
+  &::before {
+    content: '←';
+  }
+}
+
+// ============================================
+// CARD
+// ============================================
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  padding: $spacing-unit * 6;
+  box-shadow: none;
+  border-radius: 0;
+  background-color: transparent;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: $spacing-unit * 3;
+    max-width: 100%;
+  }
+
+  mat-card-header {
+    margin-bottom: $spacing-unit * 6;
+    padding: 0;
+    border: none;
+    display: flex;
+    justify-content: center;
+
+    mat-card-title {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      color: #333;
+      margin: 0;
+      line-height: 1.2;
+      width: 100%;
+    }
+  }
+}
+
+// ============================================
+// FORM
+// ============================================
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-unit * 3;
+  width: 100%;
+}
+
+// ============================================
+// FORM FIELDS - Material Override
+// ============================================
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep {
+  // Remove Material default styles
+  .mat-mdc-form-field {
+    width: 100%;
+
+    // Enlever les marges par défaut de Material
+    .mat-mdc-form-field-bottom-align {
+      padding-bottom: 0 !important;
+    }
+
+    // Masquer les lignes par défaut
+    .mdc-line-ripple::after {
+      display: none !important;
+    }
+
+    // Style du champ wrapper
+    .mdc-text-field {
+      background-color: transparent;
+      border: 2px solid $primary-color;
+      border-radius: 8px;
+      padding: 0;
+      transition: all $transition-duration $transition-easing;
+
+      &:hover {
+        border-color: darken($primary-color, 10%);
+      }
+
+      &.mdc-text-field--focused {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      .mdc-text-field__input {
+        font-size: 16px;
+        color: #333;
+        padding: $spacing-unit * 2 $spacing-unit * 2;
+        border: none;
+
+        &::placeholder {
+          color: #999;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    // Style du label
+    .mat-mdc-form-field-label {
+      font-size: 16px;
+      color: #999;
+      position: absolute;
+      top: 50%;
+      left: $spacing-unit * 2;
+      transform: translateY(-50%);
+      transition: all $transition-duration $transition-easing;
+      background-color: white;
+      padding: 0 $spacing-unit;
+    }
+
+    // Label floaté
+    &.mat-focused,
+    &.mat-form-field-should-float {
+      .mat-mdc-form-field-label {
+        top: -$spacing-unit;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: $primary-color;
+      }
+    }
+  }
+
+  // Select specific
+  .mat-mdc-select {
+    width: 100%;
+
+    .mdc-text-field {
+      border: 2px solid $primary-color;
+      border-radius: 8px;
+      padding: 0;
+
+      &:hover {
+        border-color: darken($primary-color, 10%);
+      }
+    }
+
+    .mat-mdc-select-trigger {
+      padding: $spacing-unit * 2;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .mat-mdc-select-arrow {
+      margin-right: $spacing-unit;
+    }
+  }
+}
+
+// ============================================
+// TEXTAREA
+// ============================================
+
+mat-form-field:nth-child(3) {
+  ::ng-deep textarea {
+    min-height: 140px;
+    resize: none;
+    font-family: inherit;
+    padding: $spacing-unit * 2 !important;
+  }
+}
+
+// ============================================
+// SUBMIT BUTTON
+// ============================================
+
+button[type='submit'] {
+  align-self: center;
+  margin-top: $spacing-unit * 4;
+  padding: $spacing-unit * 2 $spacing-unit * 6;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-duration $transition-easing;
+  text-transform: none;
+  color: white;
+  background-color: $primary-color;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+
+  &:not(:disabled):active {
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// ERROR MESSAGE
+// ============================================
+
+.error {
+  color: #d32f2f;
+  font-size: 14px;
+  margin: $spacing-unit * 2 0 0 0;
+  padding: $spacing-unit * 2;
+  background-color: #ffebee;
+  border-left: 4px solid #d32f2f;
+  border-radius: 4px;
+  animation: slideInDown 300ms $transition-easing;
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// ============================================
+// ACCESSIBILITY
+// ============================================
+
+:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

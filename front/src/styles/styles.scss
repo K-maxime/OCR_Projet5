@@ -1,4 +1,109 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body, html {
+  font-family: 'Inter', sans-serif !important;
+}
+
+
+// style for authentication pages
+.matCard_Auth {
+    position: relative;
+    top: 40px;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    gap: 36px;
+}
+
+.matCardTitle_Auth {
+    font-size: 24px;
+}
+
+.form_Auth{
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
+    gap: 40px;
+}
+
+.matLabel_Auth {
+    font-size: 16px;
+}
+
+.matFormField_Auth {
+    width: 250px;
+    height: 50px;
+}
+
+.input-field_Auth {
+    display: flex;
+    flex-direction: column;
+}
+
+
+// style for subject cards
+.subjects-grid{
+    
+    display: grid;
+    @media screen and (min-width: 1024px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+
+    row-gap: 21px;
+    column-gap: 44px;
+
+    padding-top: 12px;
+    padding-left: 16px;
+
+    .subject {
+        display: flex;
+        flex-direction: column;
+        
+        background: #F5F5F5;
+        border: none;
+        border-radius: 8px;
+
+        .title{
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        mat-card-actions{
+            align-self: center;  
+        }
+
+
+        .subscribe-btn {
+            background-color: #7763C5;          
+            color : white;
+            font-size: 16px;
+            font-weight: bold;
+
+
+            border-radius: 8px ;
+            border-color: transparent;
+            
+            height: 40px;
+            width: 166.97px;
+            
+            padding: auto ;
+        }
+        .subscribed-btn {
+            background-color: #939393;          
+            color : white;
+            font-size: 16px;
+            font-weight: bold;
+
+            border-radius: 8px ;
+            border-color: transparent;
+            
+            height: 40px;
+            width: 166.97px;
+            
+            padding: auto ;
+        }
+    }
+}

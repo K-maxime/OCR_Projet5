@@ -1,0 +1,39 @@
+main {
+  min-height: 100vh;
+}
+
+#matIcon_back {
+    position: relative;
+    top: 40px;
+    left: 51px;
+}
+#back-button {   
+    font-size: 25px;
+}
+
+.submitButton_Auth {
+    background-color: #7763C5;
+    color : white;
+    font-size: 16px;
+}
+
+.submitButton_Auth:disabled {
+    background-color: #c1b5f1;
+    color : white;
+}
+
+
+@media screen and (min-width: 1024px) {
+    
+    #logo {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    
+    #logo {
+        width: 225px;
+        height: 130px;
+    }
+}

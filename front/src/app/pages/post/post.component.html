@@ -1,38 +1,35 @@
-<button type="button" (click)="backToFeed()" data-testid="back-button">Back</button>
-<div class="detailPost">
-  <mat-card class="Post">
+<div id="post-page">
+  <button type="button" (click)="backToFeed()" data-testid="back-button" id ="back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div id="post-content">
     @let post = (post$ | async);
-    <mat-card-header>
-          <mat-card-title data-testid="title-post">{{ post?.title }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-subtitle>
-      <p data-testid="created-at"> Date : {{ post?.createdAt }} </p>
-      <p data-testid="author"> Autor : {{ post?.author?.username }} </p>
-      <p data-testid="subject"> Thème : {{ post?.subject?.name }} </p>
-    </mat-card-subtitle>
-    <mat-card-content> {{ post?.content }} </mat-card-content>
-  </mat-card>
-  <mat-card class="comment">
-    <mat-card-subtitle>Commentaires</mat-card-subtitle>
-    @for (comment of post?.comments; track comment) {
-      <mat-card-content> 
-        <p data-testid="comment-author">{{comment.author.username}} </p>
-        <p data-testid="comment-content">{{comment.content}} </p>        
-      </mat-card-content>
-    }
-  </mat-card>
-  <mat-card class="addComment">
-    <form [formGroup]="commentForm">
-      <mat-form-field>
-        <mat-label>Ecrivez ici votre commentaire</mat-label>
-        <input matInput formControlName="content" data-testid="comment-content-input"/>
-      </mat-form-field>
-      <button matIconButton (click)="comment()" data-testid="submit-comment-button">
-          <mat-icon>send</mat-icon>
+    <h1 data-testid="title-post" class="title">{{ post?.title }}</h1>
+    <div id="subtitle-post">
+      <p data-testid="created-at" class="subtitle">Date : {{ post?.createdAt | date:'HH\'h\'mm dd/MM/yyyy'}}</p>
+      <p data-testid="author" class="subtitle">Autor : {{ post?.author?.username }}</p>
+      <p data-testid="subject" class="subtitle">Thème : {{ post?.subject?.name }}</p>
+    </div>
+    <mat-card-content>Content: {{ post?.content }} </mat-card-content>
+
+    <hr>
+
+    <h2 class="comments-title">Commentaires</h2>
+
+    <div id="comments-section">
+      @for (comment of post?.comments; track comment) {
+        <div class="comment-container"> 
+          <p data-testid="comment-author" class="comment-author">{{comment.author.username}}</p>
+          <p data-testid="comment-content" class="comment-content">{{comment.content}}</p>        
+        </div>
+      }
+
+      <form [formGroup]="commentForm" class="addComment">
+        <textarea matInput formControlName="content" placeholder="Ecrivez ici votre commentaire" data-testid="comment-content-input" id="comment-field"></textarea>
+        <button matIconButton (click)="comment()" data-testid="submit-comment-button" class="send-button">
+          <img src="assets/send.png" alt="send" class="send-icon"/>
         </button>
-    </form>
-  </mat-card>
-
-
+      </form>
+    </div>
+  </div>
 </div>
-

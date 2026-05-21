@@ -1,17 +1,23 @@
 
-<div class="login">
-  <button type="button" (click)="backToHome()">Back</button>
-  <mat-card>
+<main>
+  <button matIconButton type="button" (click)="backToHome()" id="matIcon_back">
+    <mat-icon id="back-button">arrow_back</mat-icon>
+  </button>
+  <mat-card class="matCard_Auth">
+    <img src="/assets/logo_p6.png" alt="logo du site"  id="logo"/>
     <mat-card-header>
-            <mat-card-title>Se connecter</mat-card-title>
+            <mat-card-title class="matCardTitle_Auth">Se connecter</mat-card-title>
     </mat-card-header>
-    <form class="login-form" [formGroup]="form" (ngSubmit)="login()">
-      <mat-form-field>
-        <mat-label>Email ou nom d'utilisateur</mat-label>
-        <input matInput formControlName="login" data-testid="login-input">
-      </mat-form-field>
-      <mat-form-field>
-          <mat-label>Mot de passe:</mat-label>
+    <form class="form_Auth" [formGroup]="form" (ngSubmit)="login()">
+      <div class="input-field_Auth">
+        <mat-label class="matLabel_Auth">E-mail ou nom d'utilisateur</mat-label>
+        <mat-form-field class="matFormField_Auth" appearance="outline">
+          <input matInput formControlName="login" data-testid="login-input">
+        </mat-form-field>
+      </div>  
+      <div class="input-field_Auth">
+        <mat-label class="matLabel_Auth">Mot de passe:</mat-label>
+        <mat-form-field class="matFormField_Auth" appearance="outline">
           <input matInput [type]="hide() ? 'password' : 'text'"  formControlName="password" data-testid="password-input" />
           <button
             type="button"
@@ -24,10 +30,11 @@
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" data-testid="login-button">Se connecter</button>
+      </div>
+      <button mat-raised-button type="submit" [disabled]="form.invalid" data-testid="login-button" class="submitButton_Auth">Se connecter</button>
       @if (onError) {
           <p class="error" data-testid="error-message" data-testid="error-message">An error occurred</p>
       }
     </form>
   </mat-card>
-</div>
+</main>

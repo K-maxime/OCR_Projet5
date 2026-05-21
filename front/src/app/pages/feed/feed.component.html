@@ -1,15 +1,21 @@
-<div class="feed">  
-  <button type="button" (click)="goToCreatePost()" data-testid="create-post-button">Créer un article</button>
-  <button type="button" (click)="switchFilter()" data-testid="filter-button">filter</button>
-  @for (post of (posts$ | async); track post) {  
-      <mat-card class="subject" data-testid="post-item">
+<main>
+  <div class="feed-header">
+    <button type="button" (click)="goToCreatePost()" data-testid="create-post-button" id="btn-create">Créer un article</button>
+    <button type="button" (click)="switchFilter()" data-testid="filter-button" id="btn-filter">
+      Trier par 
+       <mat-icon>arrow_downward</mat-icon>
+    </button>
+  </div>
+  <div class="post-grid">
+  @for (post of (posts$ | async); track post) { 
+      <mat-card matButton (click)="goToPostDetail(post.id)" class="post" data-testid="post-item" >
         <mat-card-header>
-              <mat-card-title>{{ post.title }}</mat-card-title>
+              <mat-card-title class="title">{{ post.title }}</mat-card-title>
+              <mat-card-subtitle class="subtitle">
+                <p>Date : {{ post.createdAt | date: 'dd-MM-yyyy (HH\'h\'mm)' }}</p>
+                <p>Auteur : {{ post.author.username }}</p>
+              </mat-card-subtitle>
         </mat-card-header>
-        <mat-card-subtitle >
-          <p>Date : {{ post.createdAt }}</p>
-          <p>Auteur : {{ post.author.username }}</p>
-        </mat-card-subtitle>
         <mat-card-content>
           <p>
             {{ post.content }}
@@ -17,4 +23,5 @@
         </mat-card-content>
       </mat-card>
   }
-</div>
+  </div>
+</main>

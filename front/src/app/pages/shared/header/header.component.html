@@ -1,13 +1,61 @@
-<mat-toolbar color="primary">
-  <div class="toolbar-container">
-      
-    <div class="buttons-container">
-        <img src="assets/logo.png" alt="Logo" class="logo">
-        <!-- TODO ajout If sur l'affichage des autre bouton en fonction de l'etat de connection -->
-        <button mat-button (click)="logout()" data-testid="logout-button">Se deconnecter</button>
-        <button mat-button (click)="goToFeed()" data-testid="post-button">Articles</button>
-        <button mat-button (click)="goToSubjects()" data-testid="subject-button">Thèmes</button>
-        <button mat-button (click)="goToUser()" data-testid="user-button">Profile</button>
+@if (!isHomeRoute) {
+  <mat-toolbar color="primary" class="app-toolbar">
+    <div class="toolbar-container">
+      <!-- Logo (visible partout) -->
+      <div class="logo-section">
+        <img src="assets/logo_p6.png" alt="Logo MDD" class="logo" (click)="goToFeed()">
+      </div>
+
+      <!-- Menu Burger (visible seulement sur mobile) -->
+      @if (isMobileView) {
+        <button 
+          mat-icon-button 
+          class="menu-burger"
+          (click)="toggleMenu()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+
+      <!-- Navigation Desktop (visible seulement sur desktop et hors auth routes) -->
+      @if (!isMobileView && !isAuthRoute) {
+        <nav class="nav-desktop">
+          <button mat-button (click)="logout()" data-testid="logout-button" id="logout-button">
+            Se déconnecter
+          </button>
+          <button mat-button (click)="goToFeed()" data-testid="post-button" id="post-button">
+            Articles
+          </button>
+          <button mat-button (click)="goToSubjects()" data-testid="subject-button" id="subject-button">
+            Thèmes
+          </button>
+          <button mat-icon-button 
+                  (click)="goToUser()" 
+                  data-testid="user-button"
+                  matTooltip="Mon profil"
+                  class="profile-btn">
+            <img src="assets/user.png" alt="user" class="user-icon"/>
+          </button>
+        </nav>
+      }
     </div>
-  </div>
-</mat-toolbar>
+  </mat-toolbar>
+
+  <!-- Menu Mobile Custom (visible seulement sur mobile et hors auth routes) -->
+  @if (!isAuthRoute && isMobileView && isMenuOpen) {
+    <div class="menu-backdrop" (click)="toggleMenu()"></div>
+    <nav class="menu-mobile">
+      <button mat-button (click)="navigate('logout')" data-testid="logout-button-mobile" id="logout-button">
+        Se déconnecter
+      </button>
+      <button mat-button (click)="navigate('feed')" data-testid="post-button-mobile" id="post-button">
+        Articles
+      </button>
+      <button mat-button (click)="navigate('subjects')" data-testid="subject-button-mobile" id="subject-button">
+        Thèmes
+      </button>
+      <button mat-button (click)="navigate('user')" data-testid="user-button-mobile">
+        <img src="assets/user.png" alt="user" class="user-icon"/>
+      </button>
+    </nav>
+  }
+}

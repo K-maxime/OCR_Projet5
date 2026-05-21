@@ -1,0 +1,140 @@
+#post-page {
+  display: flex;
+  gap: 23px;
+  padding: 24px;
+
+  #back-button {
+    background-color: transparent;
+    border: none;
+    width: 39px;
+    height: 39px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+    
+  #post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+  }
+
+  #subtitle-post {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  hr {
+    border: 1px solid #000;
+    width: 100%;
+    margin: 0;
+    height: 0;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-family: inter;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    font-family: inter;
+    color: #000;
+    margin: 0;
+  }
+
+  .comments-title {
+    font-size: 20px;
+    font-family: inter;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  #comments-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  
+  .comment-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+.comment-author {
+  font-size: 14px;
+  font-family: inter;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.comment-content {
+  background-color: #EEEEEE;
+  padding: 17px 21px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inter;
+  margin: 0;
+  word-wrap: break-word;
+  flex: 1;
+  width: 449px;
+}
+
+  .addComment {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  #comment-field {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    font-family: inter;
+    font-size: 14px;
+    resize: none;
+    height: 120px;
+    width: 570px;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  .send-button {
+    width: 43px;
+    height: 43px;
+    padding: 0%;
+  }
+  .send-icon {
+    width: 43px;
+    height: 43px;
+  }
+
+  @media screen and (max-width: 1024px) {
+
+    .comment-content {
+      width: 267px;
+    }
+    #comment-field {
+      width: 215px;
+    }
+  }
+
+
+
+}

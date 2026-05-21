@@ -1,31 +1,30 @@
 <div class="new_post">
-  <button type="button" (click)="backToFeed()" data-testid="back-button">Back</button>
+  <button type="button" (click)="backToFeed()" data-testid="back-button"></button>
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Créer un nouvel post</mat-card-title>
+      <mat-card-title>Créer un nouvel article</mat-card-title>
     </mat-card-header>    
     <form class="login-form" [formGroup]="postForm" (ngSubmit)="create()">
       <mat-form-field>
         <mat-label>Sélectionner un thème</mat-label>
         <mat-select formControlName="subject" data-testid="subject-select">
-          @for (subject of (subjects$ | async); track subject) {
+          @for (subject of (subjects$ | async); track subject.id) {
             <mat-option [value]="subject.id">{{ subject.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Titre post</mat-label>
+        <mat-label>Titre de l'article</mat-label>
         <input matInput formControlName="title" data-testid="title-input">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Contenue post</mat-label>
-        <input matInput formControlName="content" data-testid="content-input">
+        <mat-label>Contenu de l'article</mat-label>
+        <textarea matInput formControlName="content" data-testid="content-input"></textarea>
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid" data-testid="create-button">Créer'</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid" data-testid="create-button">Créer</button>
       @if (onError) {
-          <p class="error" data-testid="error-message">An error occurred</p>
+        <p class="error" data-testid="error-message">Une erreur s'est produite</p>
       }
     </form>
   </mat-card> 
 </div>
-

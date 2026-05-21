@@ -27,6 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 const materialModules = [
@@ -57,7 +58,8 @@ const materialModules = [
   MatButtonToggleModule,
   MatTreeModule,
   OverlayModule,
-  PortalModule
+  PortalModule,
+  MatTooltipModule
 ];
 
 @NgModule({

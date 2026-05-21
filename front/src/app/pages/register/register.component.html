@@ -1,23 +1,36 @@
 <div class="register">
-  <button type="button" (click)="backToHome()">Back</button>
-  <mat-card>
+  <button matIconButton type="button" (click)="backToHome()" id="matIcon_back">
+    <mat-icon id="back-button">arrow_back</mat-icon>
+  </button>
+  <mat-card class="matCard_Auth">    
+    <img src="/assets/logo_p6.png" alt="logo du site"  id="logo"/>
     <mat-card-header>
-            <mat-card-title>Inscription</mat-card-title>
+            <mat-card-title class="matCardTitle_Auth">Inscription</mat-card-title>
     </mat-card-header>
-    <form class="login-form" [formGroup]="registerForm" (ngSubmit)="register()">
-      <mat-form-field>
-        <mat-label>nom d'utilisateur</mat-label>
-        <input matInput formControlName="username" data-testid="username-input">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Adresse email</mat-label>
-        <input matInput formControlName="email" data-testid="email-input">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Mot de passe</mat-label>
-        <input matInput formControlName="password" data-testid="password-input">
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid" data-testid="submit-button">S'inscrire'</button>
+    <form class="form_Auth" [formGroup]="registerForm" (ngSubmit)="register()">
+
+      <div class="input-field_Auth">
+        <mat-label class="matLabel_Auth">nom d'utilisateur</mat-label>
+        <mat-form-field  class="matFormField_Auth" appearance="outline">
+          <input matInput formControlName="username" data-testid="username-input">
+        </mat-form-field>
+      </div>
+      
+      <div class="input-field_Auth">
+        <mat-label class="matLabel_Auth">Adresse email</mat-label>
+        <mat-form-field class="matFormField_Auth" appearance="outline">
+          <input matInput formControlName="email" data-testid="email-input">
+        </mat-form-field>
+      </div>
+      
+      <div class="input-field_Auth">
+        <mat-label class="matLabel_Auth">Mot de passe</mat-label>
+        <mat-form-field class="matFormField_Auth" appearance="outline">
+          <input matInput formControlName="password" data-testid="password-input">
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button type="submit" [disabled]="registerForm.invalid" data-testid="submit-button" class="submitButton_Auth">S'inscrire</button>
       @if (onError) {
           <p class="error" data-testid="error-message" data-testid="error-message">An error occurred</p>
       }
