@@ -5,18 +5,27 @@ import { AuthService } from './auth.service';
 import { UserInformation } from '../models/userInformation.interface';
 import { LoginRequest } from '../models/loginRequest.interface';
 import { RegisterRequest } from '../models/registerRequest.interface';
+import { LoginResponse } from '../models/loginResponse.interface';
+import { Router } from '@angular/router';
 
 describe('AuthService', () => {
     let service: AuthService;
     let httpCtrl: HttpTestingController;
-    const apiUrl = 'http://localhost:9090/api/auth';
+    const apiUrl = 'http://localhost:9090/api/auth';    
+    let routerMock: jest.Mocked<Router>;
 
     beforeEach(() => {
+
+        routerMock = {
+            navigate: jest.fn()
+        } as unknown as jest.Mocked<Router>;
+
         TestBed.configureTestingModule({
             providers: [
             AuthService,
             provideHttpClient(),
-            provideHttpClientTesting()
+            provideHttpClientTesting(),
+            { provide: Router,useValue: routerMock }
                         ],
         });
         service = TestBed.inject(AuthService);
@@ -34,7 +43,7 @@ describe('AuthService', () => {
     describe('login()', () => {
 
         it('should perfrom a Post request to /api/auth and user information', () => {
-            let postResult: UserInformation | undefined;
+            let postResult: LoginResponse | undefined;
             const fakeLoginRequest :LoginRequest= {
                 login: 'test',
                 password: 'password'
@@ -77,13 +86,12 @@ describe('AuthService', () => {
 
     describe('logout()', () => {
         it('should send POST request to /api/auth/logout', () => {
-
-            service.logout().subscribe();
-            const req = httpCtrl.expectOne(`${apiUrl}/logout`);
-            req.flush(null);
-
-            expect(req.request.method).toBe('POST');
+            const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem');
             
+            service.logout();
+
+            expect(removeItemSpy).toHaveBeenCalledWith('token');
+            expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
         });
     });
 });

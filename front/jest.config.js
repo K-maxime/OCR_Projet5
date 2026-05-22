@@ -18,6 +18,7 @@ module.exports = {
     '!src/app/**/*.module.ts',
     '!src/app/**/*.interface.ts',
     '!src/app/**/index.ts',
+    '!src/app/app.routes.ts'
   ],
   coverageThreshold: {
     global: {
