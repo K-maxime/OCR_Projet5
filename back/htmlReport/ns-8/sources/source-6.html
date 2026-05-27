@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubscriptionService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.services</a>
+</div>
+
+<h1>Coverage Summary for Class: SubscriptionService (com.openclassrooms.mddapi.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubscriptionService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.services;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+&nbsp;import com.openclassrooms.mddapi.exceptions.*;
+&nbsp;import com.openclassrooms.mddapi.models.Subject;
+&nbsp;import com.openclassrooms.mddapi.models.Subscription;
+&nbsp;import com.openclassrooms.mddapi.models.User;
+&nbsp;import com.openclassrooms.mddapi.repository.SubjectRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.SubscriptionRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.UserRepository;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Service métier pour la gestion de l&#39;abonnement.
+&nbsp; *
+&nbsp; * Gère :
+&nbsp; * - L&#39;abonnement et le désabonnement à un thème
+&nbsp; */
+&nbsp;@Service
+&nbsp;@RequiredArgsConstructor
+&nbsp;public class SubscriptionService {
+&nbsp;
+&nbsp;    private final SubscriptionRepository subscriptionRepository;
+&nbsp;    private final SubjectRepository subjectRepository;
+&nbsp;    private final UserRepository userRepository;
+&nbsp;
+&nbsp;    private final AuthenticationService authService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Indique si l&#39;utilisateur est abonné à un thème donné.
+&nbsp;     *
+&nbsp;     * @param userId identifiant de l&#39;utilisateur
+&nbsp;     * @param subjectId identifiant du thème
+&nbsp;     * @return boolean indiquant si l&#39;utilisateur est abonné au thème
+&nbsp;     */
+&nbsp;    public boolean isSubscribed(Long userId, Long subjectId) {
+<b class="fc">&nbsp;        return subscriptionRepository.existsByUserIdAndSubjectId(userId, subjectId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée un nouvel abonnement entre un utilisateur et un thème.
+&nbsp;     *
+&nbsp;     * @param subjectId identifiant du thème
+&nbsp;     * @return MessageResponse contenant le message de confirmation
+&nbsp;     * @throws SubjectNotFoundWithIdException si le thème n&#39;est pas trouvé
+&nbsp;     * @throws SubscriptionAlreadyExistsException si l&#39;abonnement existe deja
+&nbsp;     */
+&nbsp;    public MessageResponse suscribeToSubject (Long subjectId){
+&nbsp;
+<b class="fc">&nbsp;        Long userId = authService.getCurrentUserId();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (isSubscribed(userId, subjectId)){// vérifie si la subscription existe deja</b>
+<b class="fc">&nbsp;            throw new SubscriptionAlreadyExistsException();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Subject subject = subjectRepository.findById(subjectId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new SubjectNotFoundWithIdException(subjectId));</b>
+&nbsp;
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new UserNotFoundWithIdException(userId));</b>
+&nbsp;
+<b class="fc">&nbsp;        Subscription subscription = new Subscription();</b>
+<b class="fc">&nbsp;        subscription.setUser(user);</b>
+<b class="fc">&nbsp;        subscription.setSubject(subject);</b>
+<b class="fc">&nbsp;        subscriptionRepository.save(subscription);</b>
+<b class="fc">&nbsp;        return new MessageResponse(&quot;subscription avec succes &quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Supprime l&#39;abonnement entre un utilisateur et un thème.
+&nbsp;     *
+&nbsp;     * @param subjectId identifiant du thème
+&nbsp;     * @return MessageResponse contenant le message de confirmation
+&nbsp;     * @throws SubjectNotFoundWithIdException si le thème n&#39;est pas trouvé
+&nbsp;     * @throws SubscriptionNotFoundException si l&#39;abonnement n&#39;existe pas
+&nbsp;     */
+&nbsp;    public MessageResponse unsuscribeToSubject (Long subjectId) {
+&nbsp;
+<b class="fc">&nbsp;        Long userId = authService.getCurrentUserId();</b>
+&nbsp;
+<b class="fc">&nbsp;        Subscription subscription = subscriptionRepository.findByUserIdAndSubjectId(userId, subjectId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new SubscriptionNotFoundException(subjectId));</b>
+&nbsp;
+<b class="fc">&nbsp;        subscriptionRepository.delete(subscription);</b>
+<b class="fc">&nbsp;        return new MessageResponse(&quot;désabonnement avec succes &quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

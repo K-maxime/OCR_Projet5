@@ -31,8 +31,7 @@ public class ArticleService {
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    private AuthenticationService authService;
+    private final AuthenticationService authService;
 
 
     /**
@@ -45,7 +44,6 @@ public class ArticleService {
     public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
 
         Long userId = authService.getCurrentUserId();
-        //TODO update TU
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundWithIdException(userId));
 

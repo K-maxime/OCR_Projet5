@@ -98,7 +98,7 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequestDto.class))),
-            @ApiResponse(responseCode = "401", description = "The user already exists or the password is invalid"),
+            @ApiResponse(responseCode = "401", description = "The user don't exists or the password is invalid"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (missing/empty fields or invalid lengths)"),
     })
     @PostMapping("/login")

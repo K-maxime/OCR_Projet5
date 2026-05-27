@@ -1,0 +1,97 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: UserRepository (com.openclassrooms.mddapi.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$YPedrskf</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$YPedrskf$auxiliary$f8gxMTyi</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$YPedrskf$auxiliary$GzMmzk1h</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.repository;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.models.User;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Recherche un utilisateur par email ou nom d&#39;utilisateur.
+&nbsp;     *
+&nbsp;     * @param email l&#39;email a rechercher
+&nbsp;     * @param username le nom d&#39;utilisateur a rechercher
+&nbsp;     * @return l&#39;utilisateur correspondant si trouve
+&nbsp;     */
+&nbsp;    Optional&lt;User&gt; findByEmailOrUsername(String email, String username);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.openclassrooms.mddapi.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.time.LocalDateTime;
 
@@ -38,7 +39,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetArticles_WhenValidRequest_ThenReturn200() throws Exception {
-        mockMvc.perform(get("/api/articles"))
+        mockMvc.perform(get("/api/articles")
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(newestArticle.getId()))
@@ -48,7 +50,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetArticles_WhenSortAsc_ThenReturnArticlesSortedAscending() throws Exception {
-        mockMvc.perform(get("/api/articles").param("sort", "asc"))
+        mockMvc.perform(get("/api/articles").param("sort", "asc")
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(oldestArticle.getId()))
                 .andExpect(jsonPath("$[0].title").value("Older article"))
@@ -57,14 +60,16 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetArticles_WhenInvalidSort_ThenReturn400() throws Exception {
-        mockMvc.perform(get("/api/articles").param("sort", "invalid"))
+        mockMvc.perform(get("/api/articles").param("sort", "invalid")
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Type invalid n'est pas un type de trie connue veuillez utiliser 'desc' ou 'asc'"));
     }
 
     @Test
     void testGetArticle_WhenArticleExists_ThenReturn200() throws Exception {
-        mockMvc.perform(get("/api/articles/{id}", oldestArticle.getId()))
+        mockMvc.perform(get("/api/articles/{id}", oldestArticle.getId())
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(oldestArticle.getId()))
@@ -75,7 +80,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetArticle_WhenArticleDoesNotExist_ThenReturn404() throws Exception {
-        mockMvc.perform(get("/api/articles/{id}", 999L))
+        mockMvc.perform(get("/api/articles/{id}", 999L)
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Aucun article trouve avec l'Id 999"));
     }
@@ -86,7 +92,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
         mockMvc.perform(post("/api/articles")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(objectMapper.writeValueAsString(request))
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("Article created successfully!"));
@@ -98,7 +105,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
         mockMvc.perform(post("/api/articles")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(objectMapper.writeValueAsString(request))
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("title: Title cannot be empty"));
     }
@@ -109,7 +117,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
         mockMvc.perform(post("/api/articles")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(objectMapper.writeValueAsString(request))
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("content: Content cannot be empty"));
     }
@@ -120,7 +129,8 @@ class ArticleControllerTest extends AbstractControllerIntegrationTest {
 
         mockMvc.perform(post("/api/articles")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(objectMapper.writeValueAsString(request))
+                .with(SecurityMockMvcRequestPostProcessors.user(defaultUser.getEmail())))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Aucun subject trouve avec l'Id 999"));
     }

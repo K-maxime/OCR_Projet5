@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArticleService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ArticleService (com.openclassrooms.mddapi.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArticleService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.services;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.request.CreateArticleRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+&nbsp;import com.openclassrooms.mddapi.exceptions.*;
+&nbsp;import com.openclassrooms.mddapi.models.Article;
+&nbsp;import com.openclassrooms.mddapi.models.Subject;
+&nbsp;import com.openclassrooms.mddapi.models.User;
+&nbsp;import com.openclassrooms.mddapi.repository.ArticleRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.SubjectRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.UserRepository;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Service métier pour la gestion des articles.
+&nbsp; *
+&nbsp; * Gère :
+&nbsp; * - L&#39;enregistrement de nouveaux articles et commentaires
+&nbsp; * - La recherche des articles
+&nbsp; */
+&nbsp;@Service
+&nbsp;@RequiredArgsConstructor
+&nbsp;public class ArticleService {
+&nbsp;
+&nbsp;    private final ArticleRepository articleRepository;
+&nbsp;    private final SubjectRepository subjectRepository;
+&nbsp;    private final UserRepository userRepository;
+&nbsp;
+&nbsp;    private final AuthenticationService authService;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne la liste des articles dans l&#39;ordre choisi par l&#39;utilisateur.
+&nbsp;     *
+&nbsp;     * @param sort paramètre optionnel contenant le type de tri ascendant ou descendant
+&nbsp;     * @return une liste l&#39;objet Article
+&nbsp;     * @throws UnknowSortException si le type de tri n&#39;est pas reconnu
+&nbsp;     */
+&nbsp;    public List&lt;Article&gt; getAllArticles(@RequestParam(required = false) String sort) {
+&nbsp;
+<b class="fc">&nbsp;        Long userId = authService.getCurrentUserId();</b>
+<b class="fc">&nbsp;        userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new UserNotFoundWithIdException(userId));</b>
+&nbsp;
+<b class="pc">&nbsp;        if (sort == null || sort.equals(&quot;desc&quot;)) {</b>
+<b class="fc">&nbsp;            return articleRepository.findArticlesByUserSubscriptionsDesc(userId);</b>
+<b class="fc">&nbsp;        } else if (sort.equals(&quot;asc&quot;)) {</b>
+<b class="fc">&nbsp;            return articleRepository.findArticlesByUserSubscriptionsAsc(userId);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new UnknowSortException(sort);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retourne l&#39;article demandé par son Id.
+&nbsp;     *
+&nbsp;     * @param id identifiant de l&#39;article à récupérer
+&nbsp;     * @return l&#39;objet Article
+&nbsp;     * @throws SubjectNotFoundWithIdException si le thème de l&#39;article n&#39;est pas trouvé
+&nbsp;     */
+&nbsp;    public Article getArticleById(Long id) {
+<b class="fc">&nbsp;        return articleRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ArticleNotFoundWithIdException(id));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée et enregistre un nouvel article..
+&nbsp;     *
+&nbsp;     * @param dto DTO contenant (subjectId ,title ,content)
+&nbsp;     * @return un message de confirmation
+&nbsp;     * @throws SubjectNotFoundWithIdException si le thème de l&#39;article n&#39;est pas trouvé
+&nbsp;     */
+&nbsp;    public MessageResponse createArticle(CreateArticleRequestDto dto) {
+&nbsp;
+<b class="fc">&nbsp;        Long userId = authService.getCurrentUserId();</b>
+&nbsp;
+<b class="fc">&nbsp;        User author = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new UserNotFoundWithIdException(userId));</b>
+&nbsp;
+<b class="fc">&nbsp;        Subject subject = subjectRepository.findById(dto.getSubjectId())</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new SubjectNotFoundWithIdException(dto.getSubjectId()));</b>
+&nbsp;
+<b class="fc">&nbsp;        Article article = new Article();</b>
+<b class="fc">&nbsp;        article.setTitle(dto.getTitle());</b>
+<b class="fc">&nbsp;        article.setContent(dto.getContent());</b>
+<b class="fc">&nbsp;        article.setAuthor(author);</b>
+<b class="fc">&nbsp;        article.setSubject(subject);</b>
+&nbsp;
+<b class="fc">&nbsp;        articleRepository.save(article);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new MessageResponse(&quot;Article created successfully!&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

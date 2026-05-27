@@ -21,8 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private AuthenticationService authService;
+    private final AuthenticationService authService;
 
     /**
      * Récupère les informations utilisateur.

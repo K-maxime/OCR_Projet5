@@ -27,8 +27,7 @@ public class SubscriptionService {
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    private AuthenticationService authService;
+    private final AuthenticationService authService;
 
     /**
      * Indique si l'utilisateur est abonné à un thème donné.

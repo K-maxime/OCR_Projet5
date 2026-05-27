@@ -182,6 +182,25 @@ Les tests backend utilisent une base H2 en mémoire configurée dans :
 back/src/test/resources/application-test.properties
 ```
 
+Un rapport HTML de couverture backend est disponible dans :
+
+```text
+back/htmlReport/index.html
+```
+
+Derniers résultats de couverture backend :
+
+| Indicateur | Couverture | Éléments couverts |
+| --- | ---: | ---: |
+| Classes | 100% | 33 / 33 |
+| Méthodes | 81,1% | 77 / 95 |
+| Branches | 37,2% | 29 / 78 |
+| Lignes | 70,6% | 279 / 395 |
+
+Le rapport backend a été généré le 27 mai 2026 à 10:58.
+
+Les services sont très bien couverts avec 100% des classes, 100% des méthodes, 91,7% des branches et 100% des lignes. Les contrôleurs sont également bien couverts avec 92,9% des lignes. Les zones les moins couvertes concernent principalement les mappers générés, qui font baisser la couverture globale des branches et des lignes.
+
 ### Tests frontend
 
 Depuis le dossier `front` :

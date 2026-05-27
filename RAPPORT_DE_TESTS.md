@@ -1,8 +1,8 @@
 # Rapport de tests
 
-Ce document présente le rapport de couverture des tests unitaires du frontend Angular.
+Ce document présente les rapports de couverture des tests du projet MDD.
 
-Les données proviennent des fichiers générés dans :
+Les données frontend proviennent des fichiers générés dans :
 
 ```text
 front/coverage
@@ -15,9 +15,17 @@ Sources utilisées :
 - `front/coverage/clover.xml`
 - `front/coverage/lcov.info`
 
-Date de génération du rapport : 22 mai 2026 à 10:56.
+Date de génération du rapport frontend : 22 mai 2026 à 10:56.
 
-## Périmètre
+Les données backend proviennent du rapport généré dans :
+
+```text
+back/htmlReport
+```
+
+Date de génération du rapport backend : 27 mai 2026 à 10:58.
+
+## Périmètre frontend
 
 Ce rapport concerne uniquement la partie frontend du projet, située dans :
 
@@ -47,7 +55,7 @@ Le rapport HTML généré est consultable ici :
 front/coverage/lcov-report/index.html
 ```
 
-## Résultat global
+## Résultat global frontend
 
 Le rapport global indique une bonne couverture du code frontend.
 
@@ -150,7 +158,7 @@ Le rapport montre quelques zones moins couvertes. Elles ne bloquent pas la valid
 | `src/app/pages/post/post.component.ts` | Functions | Une fonction anonyme autour de la ligne 36 n'est pas couverte. |
 | `src/app/pages/user/user.component.ts` | Functions | Une fonction anonyme autour de la ligne 79 n'est pas couverte. |
 
-## Analyse
+## Analyse frontend
 
 La couverture globale est satisfaisante pour le projet. Les services, le guard et l'interceptor sont très bien couverts, ce qui sécurise les parties liées aux appels HTTP et à l'authentification.
 
@@ -161,6 +169,78 @@ Les zones les moins couvertes concernent surtout des branches conditionnelles ou
 - les redirections ou actions utilisateur dans le header ;
 - les callbacks de succès et d'erreur lors des appels aux services.
 
+## Résultat global backend
+
+Le rapport backend est disponible dans :
+
+```text
+back/htmlReport/index.html
+```
+
+Il couvre les classes Java de l'API Spring Boot.
+
+| Indicateur | Couverture | Couvert | Total |
+| --- | ---: | ---: | ---: |
+| Classes | 100% | 33 | 33 |
+| Méthodes | 81,1% | 77 | 95 |
+| Branches | 37,2% | 29 | 78 |
+| Lignes | 70,6% | 279 | 395 |
+
+## Couverture backend par package
+
+| Package | Classes | Méthodes | Branches | Lignes |
+| --- | ---: | ---: | ---: | ---: |
+| `com.openclassrooms.mddapi` | 100% (1/1) | 50% (1/2) | N/A | 50% (1/2) |
+| `com.openclassrooms.mddapi.config` | 100% (2/2) | 100% (7/7) | 100% (2/2) | 100% (56/56) |
+| `com.openclassrooms.mddapi.controllers` | 100% (5/5) | 91,7% (11/12) | N/A | 92,9% (13/14) |
+| `com.openclassrooms.mddapi.exceptions` | 100% (9/9) | 94,4% (17/18) | N/A | 95,8% (23/24) |
+| `com.openclassrooms.mddapi.mapper` | 100% (3/3) | 43,5% (10/23) | 17,9% (10/56) | 31,2% (44/141) |
+| `com.openclassrooms.mddapi.models` | 100% (3/3) | 100% (3/3) | N/A | 100% (3/3) |
+| `com.openclassrooms.mddapi.security` | 100% (3/3) | 87,5% (14/16) | 75% (6/8) | 76,5% (52/68) |
+| `com.openclassrooms.mddapi.services` | 100% (7/7) | 100% (14/14) | 91,7% (11/12) | 100% (87/87) |
+
+## Éléments backend bien couverts
+
+Les tests backend couvrent fortement les couches principales de l'API :
+
+- les services métier, avec 100% des lignes couvertes ;
+- les contrôleurs REST, avec 92,9% des lignes couvertes ;
+- la configuration Spring, avec 100% des lignes couvertes ;
+- les exceptions, avec 95,8% des lignes couvertes ;
+- les classes du package `models`, avec 100% des lignes couvertes.
+
+Cette couverture est intéressante car elle valide les règles métier, les endpoints REST et une grande partie du comportement attendu côté API.
+
+## Points backend à améliorer
+
+Le principal point faible du rapport backend concerne le package `mapper`.
+
+| Élément | Couverture lignes | Couverture branches | Commentaire |
+| --- | ---: | ---: | --- |
+| `com.openclassrooms.mddapi.mapper` | 31,2% | 17,9% | Les classes générées par MapStruct contiennent beaucoup de branches défensives, notamment pour les valeurs nulles. |
+| `UserMapperImpl` | 24% | 8,3% | Plusieurs chemins de mapping ne sont pas exercés par les tests. |
+| `SubjectMapperImpl` | 25,9% | 8,3% | Les cas de mapping incomplets ou null ne sont pas suffisamment testés. |
+| `ArticleMapperImpl` | 34,8% | 25% | Le mapping d'articles, commentaires, auteur et sujet pourrait être davantage couvert. |
+| `CustomUserDetailsService` | 55,6% | N/A | Certains chemins de chargement utilisateur restent à tester. |
+
+La couverture globale des branches backend est de 37,2%. Ce score est surtout impacté par les mappers générés. Les services, eux, affichent une très bonne couverture : 91,7% des branches et 100% des lignes.
+
+## Analyse backend
+
+La couverture backend est satisfaisante sur les parties les plus importantes du projet :
+
+- les services testent les règles métier ;
+- les contrôleurs valident les principaux endpoints ;
+- les tests utilisent une base H2 en mémoire, ce qui permet de vérifier le comportement de l'API sans dépendre d'une base MySQL locale ;
+- la sécurité est partiellement couverte avec 76,5% des lignes et 75% des branches.
+
+Pour améliorer le score global, il faudrait ajouter des tests ciblés sur :
+
+- les mappers MapStruct avec des objets complets ;
+- les mappers MapStruct avec des objets partiellement vides ou `null` ;
+- les chemins alternatifs de `CustomUserDetailsService` ;
+- les branches de sécurité encore non couvertes.
+
 ## Conclusion
 
 Les tests frontend atteignent un niveau de couverture élevé :
@@ -170,4 +250,14 @@ Les tests frontend atteignent un niveau de couverture élevé :
 - 85.18% de functions ;
 - 94.79% de lines.
 
-Les seuils Jest de 70% sont respectés pour tous les indicateurs. Le frontend dispose donc d'une base de tests solide, avec quelques pistes d'amélioration ciblées sur les branches conditionnelles et certains callbacks de composants.
+Les tests backend couvrent également les couches importantes de l'API :
+
+- 100% des classes ;
+- 81,1% des méthodes ;
+- 70,6% des lignes ;
+- 100% des lignes sur les services ;
+- 92,9% des lignes sur les contrôleurs.
+
+Les seuils Jest de 70% sont respectés côté frontend. Côté backend, le rapport montre une bonne couverture des services, contrôleurs, exceptions et configurations. Le score global des branches backend reste à améliorer, principalement à cause des mappers générés par MapStruct.
+
+Le projet dispose donc d'une base de tests solide sur le frontend et le backend, avec des pistes d'amélioration ciblées sur les branches conditionnelles frontend, les callbacks de composants et les cas particuliers de mapping côté backend.

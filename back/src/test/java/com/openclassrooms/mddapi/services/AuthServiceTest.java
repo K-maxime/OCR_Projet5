@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -30,22 +31,30 @@ class AuthServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @InjectMocks
-    private AuthService authService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
 
     @InjectMocks
-    private JwtTokenProvider jwtTokenProvider;
+    private AuthService authService;
 
     @Test
     void testLogin_WhenCredentialsAreValid_ThenReturnUser() {
         User user = buildUser(1L, "john", "john@mail.com", "Password1!");
-        String excptedToken = jwtTokenProvider.generateToken(user.getUsername());
+        String expectedToken = "valid-jwt-token";
+
         given(userRepository.findByEmailOrUsername("john", "john")).willReturn(Optional.of(user));
+        given(passwordEncoder.matches("Password1!", user.getPassword())).willReturn(true);
+        given(jwtTokenProvider.generateToken("john")).willReturn(expectedToken);
 
         String result = authService.login("john", "Password1!");
 
-        assertSame(excptedToken, result);
+        assertSame(expectedToken, result);
         verify(userRepository).findByEmailOrUsername("john", "john");
+        verify(passwordEncoder).matches("Password1!", user.getPassword());
+        verify(jwtTokenProvider).generateToken("john");
     }
 
     @Test
@@ -72,6 +81,7 @@ class AuthServiceTest {
     @Test
     void testRegister_WhenUserDoesNotExist_ThenSaveUser() {
         given(userRepository.findByEmailOrUsername("john@mail.com", "john")).willReturn(Optional.empty());
+        given(passwordEncoder.encode("Password1!")).willReturn("encoded-password");
 
         authService.register("john", "john@mail.com", "Password1!");
 
@@ -82,7 +92,7 @@ class AuthServiceTest {
         User savedUser = userCaptor.getValue();
         assertEquals("john", savedUser.getUsername());
         assertEquals("john@mail.com", savedUser.getEmail());
-        assertEquals("Password1!", savedUser.getPassword());
+        assertEquals("encoded-password", savedUser.getPassword());
     }
 
     @Test

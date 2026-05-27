@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AuthService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.services</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthService (com.openclassrooms.mddapi.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.services;
+&nbsp;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.exceptions.UserAlreadyExistsException;
+&nbsp;import com.openclassrooms.mddapi.exceptions.UserNotFoundWithLoginOrInvalidPasswordException;
+&nbsp;import com.openclassrooms.mddapi.models.User;
+&nbsp;import com.openclassrooms.mddapi.repository.UserRepository;
+&nbsp;import com.openclassrooms.mddapi.security.JwtTokenProvider;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;/**
+&nbsp; * Service métier pour la gestion de l&#39;authentification.
+&nbsp; *
+&nbsp; * Gère :
+&nbsp; * - L&#39;enregistrement de nouveaux utilisateurs
+&nbsp; * - La validation des identifiants et mots de passe
+&nbsp; * - La connexion/déconnexion
+&nbsp; */
+&nbsp;@Service
+&nbsp;@RequiredArgsConstructor
+&nbsp;public class AuthService {
+&nbsp;
+&nbsp;    private final UserRepository userRepository;
+&nbsp;
+&nbsp;    private final JwtTokenProvider jwtTokenProvider;
+&nbsp;    private final PasswordEncoder passwordEncoder;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Authentifie un utilisateur à partir de son email ou nom d&#39;utilisateur.
+&nbsp;     *
+&nbsp;     * @param login l&#39;email ou le nom d&#39;utilisateur de l&#39;utilisateur
+&nbsp;     * @param password le mot de passe
+&nbsp;     * @return le token JWT si l&#39;authentification est réussie
+&nbsp;     * @throws UserNotFoundWithLoginOrInvalidPasswordException si aucun utilisateur ne correspond au login
+&nbsp;     *         ou si le mot de passe est incorrect
+&nbsp;     */
+&nbsp;    public String login(String login, String password) {
+<b class="fc">&nbsp;        User user = userRepository.findByEmailOrUsername(login, login)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new UserNotFoundWithLoginOrInvalidPasswordException());</b>
+&nbsp;
+<b class="fc">&nbsp;        if (!passwordEncoder.matches(password, user.getPassword())){</b>
+<b class="fc">&nbsp;            throw new UserNotFoundWithLoginOrInvalidPasswordException();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Générer le JWT
+<b class="fc">&nbsp;        return jwtTokenProvider.generateToken(user.getUsername());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Enregistre un nouvel utilisateur dans le système.
+&nbsp;     *
+&nbsp;     * Vérifie que l&#39;email et le username ne sont pas déjà utilisés avant de créer le compte.
+&nbsp;     *
+&nbsp;     * @param username le nom d&#39;utilisateur unique
+&nbsp;     * @param email l&#39;adresse email unique
+&nbsp;     * @param password le mot de passe
+&nbsp;     * @throws UserAlreadyExistsException si l&#39;email ou username existe déjà
+&nbsp;     */
+&nbsp;    public void register(String username, String email, String password) {
+&nbsp;
+<b class="fc">&nbsp;        User user = userRepository.findByEmailOrUsername(email, username)</b>
+<b class="fc">&nbsp;                .orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (user != null) {</b>
+<b class="fc">&nbsp;            throw new UserAlreadyExistsException();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        User newUser = new User();</b>
+<b class="fc">&nbsp;        newUser.setEmail(email);</b>
+<b class="fc">&nbsp;        newUser.setUsername(username);</b>
+<b class="fc">&nbsp;        newUser.setPassword(passwordEncoder.encode(password));</b>
+<b class="fc">&nbsp;        userRepository.save(newUser);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>
