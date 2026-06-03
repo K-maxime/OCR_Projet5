@@ -1,0 +1,37 @@
+package com.openclassrooms.mddapi.models;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@Table(name = "subjects")
+public class Subject {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NonNull
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @NonNull
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    // ===== RELATIONS =====
+
+    // Many Subjects → Many Articles
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Article> articles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subject")
+    private List<Subscription> subscriptions;
+}

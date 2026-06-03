@@ -1,0 +1,29 @@
+<div class="subjects-grid">  
+
+  @for (subject of (subjects$ | async); track subject) {  
+      <mat-card class="subject">
+        <mat-card-header>
+              <mat-card-title class="title">{{ subject.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{ subject.description }}
+          </p>
+        </mat-card-content>          
+        @if (!subject.subscribed){
+          <mat-card-actions>
+                <button (click)="subscribe(subject.id)" class="subscribe-btn">
+                  <span>S'abonner</span>
+                </button>       
+          </mat-card-actions>
+        }
+        @else {
+          <mat-card-actions>
+                <button class="subscribed-btn">
+                  <span>Déja abonné</span>
+                </button>       
+          </mat-card-actions>
+        }
+      </mat-card>
+  }
+</div>

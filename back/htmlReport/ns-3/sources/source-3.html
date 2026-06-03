@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubjectController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: SubjectController (com.openclassrooms.mddapi.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubjectController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.controllers;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.SubjectResponseDto;
+&nbsp;import com.openclassrooms.mddapi.exceptions.UnknowSortException;
+&nbsp;import com.openclassrooms.mddapi.services.SubjectService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contrôleur REST pour la gestion des thèmes.
+&nbsp; *
+&nbsp; * Fournit les endpoints pour :
+&nbsp; * - La liste des thèmes
+&nbsp; *
+&nbsp; *  Tous les endpoints nécessitent une authentification JWT.
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequiredArgsConstructor
+&nbsp;@RequestMapping(&quot;/api/subjects&quot;)
+&nbsp;@Tag(name = &quot;Subject endpoints&quot;, description = &quot;Endpoints for managing subjects&quot;)
+&nbsp;public class SubjectController {
+&nbsp;
+&nbsp;    private final SubjectService subjectService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la liste des articles avec option de tri.
+&nbsp;     *
+&nbsp;     * @return ResponseEntity contenant la liste des thèmes
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get all subjects&quot;, description = &quot;return all subjects&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Subjects retrieved successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;403&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;List&lt;SubjectResponseDto&gt;&gt; getSubjects() {
+<b class="fc">&nbsp;        List&lt;SubjectResponseDto&gt; subjects = subjectService.getSubjects();</b>
+&nbsp;
+<b class="fc">&nbsp;        return ResponseEntity.ok().body(subjects);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

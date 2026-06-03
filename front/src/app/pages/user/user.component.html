@@ -1,0 +1,38 @@
+<mat-card>
+  <h1 class="section-title">Profil utilisateur</h1>
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" id="form">
+    <div id="form-field">
+      <input matInput formControlName="username" placeholder="Username" class="input-field">
+      <input matInput formControlName="email" placeholder="email@email.fr" class="input-field">
+      <input matInput formControlName="password" placeholder="Mot de passe" class="input-field">
+    </div>
+    <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid" id="save-button">Sauvegarder</button>
+    @if (onError) {
+        <p class="error" data-testid="error-message">An error occurred</p>
+    }
+  </form>
+</mat-card>
+
+<h1 class="section-title">Abonnements</h1>
+<div class="subjects-grid">
+
+  @for (subject of (subjects$ | async); track subject) {    
+    @if (subject.subscribed){
+      <mat-card class="subject">
+        <mat-card-header>
+              <mat-card-title class="title">{{ subject.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{ subject.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+              <button (click)="unsubscribe(subject.id)" class="subscribe-btn">
+                <span>Se désabonner</span>
+              </button>       
+        </mat-card-actions>
+      </mat-card>
+    }
+  }
+</div>

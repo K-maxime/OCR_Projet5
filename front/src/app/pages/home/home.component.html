@@ -1,5 +1,8 @@
-<div class="center">
-  <img src="/assets/logo_p6.png" alt="logo" />
-  <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
-</div>
+<main>
+    <img src="/assets/logo_p6.png" alt="Image d'accueil du site"  id="home-logo"/>
+
+    <div class="home_button">
+      <button type="button" (click)="login()" data-testid="login-button" class="button">Se connecter</button>
+      <button type="button" (click)="register()" data-testid="register-button" class="button">S'inscrire</button>
+    </div>
+</main>

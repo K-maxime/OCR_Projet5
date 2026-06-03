@@ -4,6 +4,8 @@ import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { environment } from './environments/environment';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { customJwtInterceptorFn } from './app/interceptors/Auth.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -11,6 +13,10 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),provideRouter(routes)
+    provideZoneChangeDetection(),
+    provideRouter(routes),
+    provideHttpClient(
+      withInterceptors([customJwtInterceptorFn])
+    )
   ]
 }).catch(err => console.error(err));
