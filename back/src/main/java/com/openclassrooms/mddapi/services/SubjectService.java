@@ -29,8 +29,7 @@ public class SubjectService {
     private final SubjectMapper subjectMapper;
     private final SubscriptionRepository subscriptionRepository;
 
-    @Autowired
-    private AuthenticationService authService;
+    private final AuthenticationService authService;
 
     /**
      * Retourne la liste des thèmes en indiquant l'abonnement ou non de l'utilisateur.

@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AuthController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthController (com.openclassrooms.mddapi.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.controllers;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.request.LoginRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.LoginResponseDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+&nbsp;import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.UserDetailResponseDto;
+&nbsp;import com.openclassrooms.mddapi.mapper.UserMapper;
+&nbsp;import com.openclassrooms.mddapi.services.AuthService;
+&nbsp;import com.openclassrooms.mddapi.services.UserService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contrôleur REST pour la gestion de l&#39;authentification.
+&nbsp; *
+&nbsp; * Fournit les endpoints pour :
+&nbsp; * - L&#39;enregistrement de nouveaux utilisateurs
+&nbsp; * - La connexion et la récupération de tokens
+&nbsp; * - La récupération du profil utilisateur authentifié
+&nbsp; * - La déconnexion
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequiredArgsConstructor
+&nbsp;@RequestMapping(&quot;/api/auth&quot;)
+&nbsp;@Tag(name = &quot;Authentification endpoints&quot;, description = &quot;Endpoints for managing authentification&quot;)
+&nbsp;public class AuthController {
+&nbsp;
+&nbsp;    private final AuthService authService;
+&nbsp;    private final UserService userService;
+&nbsp;    private final UserMapper userMapper;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère les détails de l&#39;utilisateur actuellement authentifié.
+&nbsp;     *
+&nbsp;     * @return ResponseEntity contenant les détails de l&#39;utilisateur
+&nbsp;     * @throws UserNotFoundWithIdException si l&#39;utilisateur n&#39;existe pas
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get the current user comment&quot;,
+&nbsp;            description = &quot;return the user details&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;User details retrieved successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/me&quot;)
+&nbsp;    public ResponseEntity&lt;UserDetailResponseDto&gt; getAuthenticatedUser() {
+<b class="fc">&nbsp;        return ResponseEntity.ok().body(this.userMapper.toDto(userService.getProfile()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Enregistre un nouvel utilisateur dans le système.
+&nbsp;     *
+&nbsp;     * Valide que l&#39;email et le nom d&#39;utilisateur ne sont pas déjà utilisés.
+&nbsp;     *
+&nbsp;     * @param request DTO contenant username, email et password
+&nbsp;     * @return ResponseEntity avec message de confirmation
+&nbsp;     * @throws UserAlreadyExistsException si l&#39;email ou username existe déjà
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Register a new user&quot;,
+&nbsp;            description = &quot;Create and publish a new user&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;User created successfully&quot;,
+&nbsp;                    content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = RegisterRequestDto.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;409&quot;, description = &quot;The user already exists&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid input data (missing/empty fields or invalid lengths)&quot;),
+&nbsp;
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/register&quot;)
+&nbsp;    public ResponseEntity&lt;MessageResponse&gt; registerUser(@Valid @RequestBody RegisterRequestDto request) {
+<b class="fc">&nbsp;        authService.register(request.getUsername(), request.getEmail(), request.getPassword());</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(new MessageResponse(&quot;User registered successfully!&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Authentifie un utilisateur avec son email/username et mot de passe.
+&nbsp;     *
+&nbsp;     * @param request DTO contenant login (email ou username) et password
+&nbsp;     * @return ResponseEntity contenant le token JWT et les infos utilisateur
+&nbsp;     * @throws UserNotFoundWithLoginOrInvalidPasswordException si login ou password invalide
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Login a user&quot;,
+&nbsp;            description = &quot;Login a user and return a token&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;User created successfully&quot;,
+&nbsp;                    content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = LoginRequestDto.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;The user don&#39;t exists or the password is invalid&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid input data (missing/empty fields or invalid lengths)&quot;),
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/login&quot;)
+&nbsp;    public ResponseEntity&lt;LoginResponseDto&gt; loginUser(@Valid @RequestBody LoginRequestDto request) {
+<b class="fc">&nbsp;        return ResponseEntity.ok().body(new LoginResponseDto(authService.login(request.getLogin(), request.getPassword())));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Déconnecte l&#39;utilisateur actuellement authentifié.
+&nbsp;     *
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Logout the current user&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @PostMapping(&quot;/logout&quot;)
+&nbsp;    public void logout() {
+&nbsp;        // Rien à faire, le frontend supprime le token
+<b class="fc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RegisterRequestDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.dto.request</a>
+</div>
+
+<h1>Coverage Summary for Class: RegisterRequestDto (com.openclassrooms.mddapi.dto.request)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">RegisterRequestDto</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.dto.request;
+&nbsp;
+&nbsp;import jakarta.persistence.Column;
+&nbsp;import jakarta.validation.constraints.Email;
+&nbsp;import jakarta.validation.constraints.NotBlank;
+&nbsp;import jakarta.validation.constraints.Pattern;
+&nbsp;import jakarta.validation.constraints.Size;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.Data;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;
+&nbsp;/**
+&nbsp; * DTO de demande d&#39;inscription.
+&nbsp; */
+&nbsp;@Data
+&nbsp;@NoArgsConstructor
+&nbsp;@AllArgsConstructor
+&nbsp;public class RegisterRequestDto {
+&nbsp;
+&nbsp;    @NotBlank(message = &quot;Email cannot be empty&quot;)
+&nbsp;    @Email(message = &quot;Invalid email format&quot;)
+&nbsp;    private String email;
+&nbsp;
+&nbsp;    @NotBlank(message = &quot;Username cannot be empty&quot;)
+&nbsp;    private String username;
+&nbsp;
+&nbsp;    @NotBlank(message = &quot;Le mot de passe est requis&quot;)
+&nbsp;    @Size(min = 8, max = 120)
+&nbsp;    @Column(nullable = false)
+&nbsp;    @Pattern(
+&nbsp;            regexp = &quot;^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&amp;*()_+\\-=\\[\\]{};:&#39;\&quot;,.&lt;&gt;?/\\\\|`~]).{8,}$&quot;,
+&nbsp;            message = &quot;Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial&quot;
+&nbsp;    )
+&nbsp;    private String password;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

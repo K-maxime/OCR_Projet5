@@ -41,7 +41,7 @@ public class SubjectController {
     @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Subjects retrieved successfully"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "403", description = "Unauthorized")
     })
     @GetMapping
     public ResponseEntity<List<SubjectResponseDto>> getSubjects() {

@@ -42,6 +42,9 @@ class ArticleServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AuthenticationService authService;
+
     @InjectMocks
     private ArticleService articleService;
 
@@ -49,12 +52,15 @@ class ArticleServiceTest {
     void testGetAllArticles_WhenSortIsNull_ThenReturnDescendingArticles() {
         User user = buildUser(1L);
         List<Article> expectedArticles = List.of(buildArticle(1L, "A"), buildArticle(2L, "B"));
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         given(articleRepository.findArticlesByUserSubscriptionsDesc(1L)).willReturn(expectedArticles);
 
         List<Article> result = articleService.getAllArticles(null);
 
         assertEquals(expectedArticles, result);
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(articleRepository).findArticlesByUserSubscriptionsDesc(1L);
     }
@@ -63,12 +69,15 @@ class ArticleServiceTest {
     void testGetAllArticles_WhenSortIsAsc_ThenReturnAscendingArticles() {
         User user = buildUser(1L);
         List<Article> expectedArticles = List.of(buildArticle(1L, "A"));
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         given(articleRepository.findArticlesByUserSubscriptionsAsc(1L)).willReturn(expectedArticles);
 
         List<Article> result = articleService.getAllArticles("asc");
 
         assertEquals(expectedArticles, result);
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(articleRepository).findArticlesByUserSubscriptionsAsc(1L);
     }
@@ -76,22 +85,26 @@ class ArticleServiceTest {
     @Test
     void testGetAllArticles_WhenSortIsUnknown_ThenThrowException() {
         User user = buildUser(1L);
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         assertThrows(UnknowSortException.class, () -> articleService.getAllArticles("invalid"));
 
         verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(articleRepository, never()).findArticlesByUserSubscriptionsAsc(any());
         verify(articleRepository, never()).findArticlesByUserSubscriptionsDesc(any());
     }
 
     @Test
     void testGetAllArticles_WhenUserDoesNotExist_ThenThrowException() {
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> articleService.getAllArticles("desc"));
 
         verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(articleRepository, never()).findArticlesByUserSubscriptionsDesc(any());
     }
 
@@ -129,12 +142,15 @@ class ArticleServiceTest {
         User author = buildUser(1L);
         Subject subject = buildSubject(2L, "Java");
         CreateArticleRequestDto dto = new CreateArticleRequestDto(2L, "JUnit 5", "Mockito and JUnit");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(author));
         given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
 
         MessageResponse response = articleService.createArticle(dto);
 
         ArgumentCaptor<Article> articleCaptor = ArgumentCaptor.forClass(Article.class);
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(subjectRepository).findById(2L);
         verify(articleRepository).save(articleCaptor.capture());
@@ -150,10 +166,13 @@ class ArticleServiceTest {
     @Test
     void testCreateArticle_WhenAuthorDoesNotExist_ThenThrowException() {
         CreateArticleRequestDto dto = new CreateArticleRequestDto(2L, "JUnit 5", "Mockito and JUnit");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> articleService.createArticle(dto));
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(subjectRepository, never()).findById(any());
         verify(articleRepository, never()).save(any(Article.class));
@@ -163,11 +182,14 @@ class ArticleServiceTest {
     void testCreateArticle_WhenSubjectDoesNotExist_ThenThrowException() {
         User author = buildUser(1L);
         CreateArticleRequestDto dto = new CreateArticleRequestDto(2L, "JUnit 5", "Mockito and JUnit");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(author));
         given(subjectRepository.findById(2L)).willReturn(Optional.empty());
 
         assertThrows(SubjectNotFoundWithIdException.class, () -> articleService.createArticle(dto));
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(subjectRepository).findById(2L);
         verify(articleRepository, never()).save(any(Article.class));

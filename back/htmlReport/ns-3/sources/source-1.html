@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArticleController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ArticleController (com.openclassrooms.mddapi.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArticleController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.controllers;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.request.CreateArticleRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.request.CreateCommentRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.ArticleResponseDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+&nbsp;import com.openclassrooms.mddapi.exceptions.ArticleNotFoundWithIdException;
+&nbsp;import com.openclassrooms.mddapi.exceptions.SubjectNotFoundWithIdException;
+&nbsp;import com.openclassrooms.mddapi.exceptions.UnknowSortException;
+&nbsp;import com.openclassrooms.mddapi.mapper.ArticleMapper;
+&nbsp;import com.openclassrooms.mddapi.services.ArticleService;
+&nbsp;import com.openclassrooms.mddapi.services.CommentService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contrôleur REST pour la gestion des articles.
+&nbsp; *
+&nbsp; * Fournit les endpoints pour :
+&nbsp; * - La liste des articles
+&nbsp; * - L&#39;article demandé par son Id
+&nbsp; * - La création d&#39;un article
+&nbsp; * - La création d&#39;un commentaire
+&nbsp; *
+&nbsp; *  Tous les endpoints nécessitent une authentification JWT.
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequiredArgsConstructor
+&nbsp;@RequestMapping(&quot;/api/articles&quot;)
+&nbsp;@Tag(name = &quot;Article endpoints&quot;, description = &quot;Endpoints for managing articles&quot;)
+&nbsp;public class ArticleController {
+&nbsp;
+&nbsp;    private final ArticleService articleService;
+&nbsp;    private final CommentService commentService;
+&nbsp;    private final ArticleMapper articleMapper;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la liste des articles avec option de tri.
+&nbsp;     *
+&nbsp;     * @param sort paramètre optionnel contenant le type de tri ascendant ou descendant
+&nbsp;     * @return ResponseEntity contenant la liste des articles
+&nbsp;     * @throws UnknowSortException si le type de tri n&#39;est pas reconnu
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get all articles with sorting&quot;,
+&nbsp;            description = &quot;Retrieve all articles with optional sorting by creation date (asc or desc)&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Articles retrieved successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid sort parameter - must be empty, &#39;asc&#39; or &#39;desc&#39;&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;List&lt;ArticleResponseDto&gt;&gt; getArticles(@RequestParam(required = false) String sort) {
+<b class="fc">&nbsp;        return ResponseEntity.ok().body(this.articleMapper.toDto(articleService.getAllArticles(sort)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupère la liste l&#39;article demandé par son Id.
+&nbsp;     *
+&nbsp;     * @param id identifiant de l&#39;article à récupérer
+&nbsp;     * @return ResponseEntity contenant l&#39;a liste des &#39;articles
+&nbsp;     * @throws ArticleNotFoundWithIdException si l&#39;article n&#39;est pas trouvé
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get the article with the given id&quot;,
+&nbsp;            description = &quot;Retrieve the article with the given id&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Article retrieved successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Article not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;ArticleResponseDto&gt; getArticle(@PathVariable Long id) {
+<b class="fc">&nbsp;        return ResponseEntity.ok().body(this.articleMapper.toDto(articleService.getArticleById(id)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée et enregistre un nouvel article.
+&nbsp;     *
+&nbsp;     * @param request DTO contenant (subjectId ,title ,content)
+&nbsp;     * @return ResponseEntity contenant un message de confirmation
+&nbsp;     * @throws SubjectNotFoundWithIdException si le thème de l&#39;article n&#39;est pas trouvé
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Create a new article&quot;,
+&nbsp;            description = &quot;Create and publish a new article&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Article created successfully&quot;,
+&nbsp;                    content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = CreateArticleRequestDto.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Subject not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid input data (missing/empty fields or invalid lengths)&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping
+&nbsp;    public ResponseEntity&lt;MessageResponse&gt; createArticle(@Valid @RequestBody CreateArticleRequestDto request) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(this.articleService.createArticle(request));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée et enregistre un nouvel commentaire à l&#39;article demandé.
+&nbsp;     *
+&nbsp;     * @param request DTO contenant (content)
+&nbsp;     * @return ResponseEntity contenant un message de confirmation
+&nbsp;     * @throws ArticleNotFoundWithIdException si l&#39;article n&#39;est pas trouvé
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Create a new comment&quot;,
+&nbsp;            description = &quot;Create and publish a new comment&quot;)
+&nbsp;    @SecurityRequirement(name = &quot;bearerAuth&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Comment created successfully&quot;,
+&nbsp;                    content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = CreateCommentRequestDto.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Article not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid input data (missing/empty fields or invalid lengths)&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/{id}/comments&quot;)
+&nbsp;    public ResponseEntity&lt;MessageResponse&gt; createArticleComment(@PathVariable Long id, @Valid @RequestBody CreateCommentRequestDto request) {
+<b class="nc">&nbsp;        return ResponseEntity.ok(this.commentService.createComment(id, request));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

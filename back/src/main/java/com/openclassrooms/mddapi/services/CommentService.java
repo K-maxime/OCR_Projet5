@@ -27,8 +27,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    private AuthenticationService authService;
+    private final AuthenticationService authService;
 
     /**
      * Crée un nouveau commentaire pour un article donné.

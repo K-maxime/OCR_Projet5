@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JwtTokenProvider</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.security</a>
+</div>
+
+<h1>Coverage Summary for Class: JwtTokenProvider (com.openclassrooms.mddapi.security)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtTokenProvider</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75,8%
+  </span>
+  <span class="absValue">
+    (25/33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.security;
+&nbsp;
+&nbsp;import io.jsonwebtoken.Claims;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.SignatureAlgorithm;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import javax.crypto.SecretKey;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.Date;
+&nbsp;
+&nbsp;/**
+&nbsp; * Composant responsable de la génération et validation des tokens JWT.
+&nbsp; */
+&nbsp;@Component
+<b class="fc">&nbsp;@Slf4j</b>
+<b class="fc">&nbsp;public class JwtTokenProvider {</b>
+&nbsp;
+&nbsp;    @Value(&quot;${jwt.secret}&quot;)
+&nbsp;    private String jwtSecret;
+&nbsp;
+&nbsp;    @Value(&quot;${jwt.expiration}&quot;)
+&nbsp;    private long jwtExpirationMs;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Génère un JWT pour un utilisateur donné.
+&nbsp;     *
+&nbsp;     * @param username Nom d&#39;utilisateur
+&nbsp;     * @return Token JWT signé
+&nbsp;     */
+&nbsp;    public String generateToken( String username) {
+<b class="fc">&nbsp;        Date now = new Date();</b>
+<b class="fc">&nbsp;        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);</b>
+&nbsp;
+<b class="fc">&nbsp;        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));</b>
+&nbsp;
+<b class="fc">&nbsp;        return Jwts.builder()</b>
+<b class="fc">&nbsp;                .setSubject(username)</b>
+<b class="fc">&nbsp;                .setIssuedAt(now)</b>
+<b class="fc">&nbsp;                .setExpiration(expiryDate)</b>
+<b class="fc">&nbsp;                .signWith(key, SignatureAlgorithm.HS512)</b>
+<b class="fc">&nbsp;                .compact();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extrait le username d&#39;un JWT.
+&nbsp;     *
+&nbsp;     * @param token Token JWT
+&nbsp;     * @return Nom d&#39;utilisateur
+&nbsp;     */
+&nbsp;    public String getUsernameFromToken(String token) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Claims claims = getClaimsFromToken(token);</b>
+<b class="fc">&nbsp;            return claims.getSubject();  // Username est maintenant en Subject</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            log.error(&quot;Erreur lors de l&#39;extraction du username du token: {}&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Valide un JWT.
+&nbsp;     *
+&nbsp;     * @param token Token JWT
+&nbsp;     * @return true si valide, false sinon
+&nbsp;     */
+&nbsp;    public boolean validateToken(String token) {
+&nbsp;        try {
+<b class="fc">&nbsp;            SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));</b>
+<b class="fc">&nbsp;            Jwts.parserBuilder()</b>
+<b class="fc">&nbsp;                    .setSigningKey(key)</b>
+<b class="fc">&nbsp;                    .build()</b>
+<b class="fc">&nbsp;                    .parseClaimsJws(token);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        } catch (io.jsonwebtoken.security.SecurityException e) {
+<b class="nc">&nbsp;            log.error(&quot;Clé JWT invalide: {}&quot;, e.getMessage());</b>
+&nbsp;        } catch (io.jsonwebtoken.MalformedJwtException e) {
+<b class="nc">&nbsp;            log.error(&quot;JWT malformé: {}&quot;, e.getMessage());</b>
+&nbsp;        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+<b class="nc">&nbsp;            log.error(&quot;JWT expiré: {}&quot;, e.getMessage());</b>
+&nbsp;        } catch (io.jsonwebtoken.UnsupportedJwtException e) {
+<b class="nc">&nbsp;            log.error(&quot;JWT non supporté: {}&quot;, e.getMessage());</b>
+&nbsp;        } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;            log.error(&quot;Chaîne JWT vide: {}&quot;, e.getMessage());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extrait les claims d&#39;un JWT.
+&nbsp;     *
+&nbsp;     * @param token Token JWT
+&nbsp;     * @return Claims du token
+&nbsp;     */
+&nbsp;    private Claims getClaimsFromToken(String token) {
+<b class="fc">&nbsp;        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));</b>
+<b class="fc">&nbsp;        return Jwts.parserBuilder()</b>
+<b class="fc">&nbsp;                .setSigningKey(key)</b>
+<b class="fc">&nbsp;                .build()</b>
+<b class="fc">&nbsp;                .parseClaimsJws(token)</b>
+<b class="fc">&nbsp;                .getBody();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

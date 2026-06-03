@@ -43,6 +43,9 @@ class SubscriptionServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AuthenticationService authService;
+
     @Spy
     @InjectMocks
     private SubscriptionService subscriptionService;
@@ -81,6 +84,8 @@ class SubscriptionServiceTest {
     void testSuscribeToSubject_WhenSubscriptionIsValid_ThenSaveSubscriptionAndReturnMessage() {
         Subject subject = buildSubject(2L);
         User user = buildUser(1L);
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         doReturn(false).when(subscriptionService).isSubscribed(1L, 2L);
@@ -88,6 +93,7 @@ class SubscriptionServiceTest {
         MessageResponse response = subscriptionService.suscribeToSubject(2L);
 
         ArgumentCaptor<Subscription> captor = ArgumentCaptor.forClass(Subscription.class);
+        verify(authService).getCurrentUserId();
         verify(subjectRepository).findById(2L);
         verify(userRepository).findById(1L);
         verify(subscriptionService).isSubscribed(1L, 2L);
@@ -103,8 +109,10 @@ class SubscriptionServiceTest {
     void testSuscribeToSubject_WhenSubjectDoesNotExist_ThenThrowException() {
         given(subjectRepository.findById(2L)).willReturn(Optional.empty());
 
+
         assertThrows(SubjectNotFoundWithIdException.class, () -> subscriptionService.suscribeToSubject(2L));
 
+        verify(authService).getCurrentUserId();
         verify(subjectRepository).findById(2L);
         verify(userRepository, never()).findById(any());
         verify(subscriptionRepository, never()).save(any(Subscription.class));
@@ -113,11 +121,14 @@ class SubscriptionServiceTest {
     @Test
     void testSuscribeToSubject_WhenUserDoesNotExist_ThenThrowException() {
         Subject subject = buildSubject(2L);
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> subscriptionService.suscribeToSubject(2L));
 
+        verify(authService).getCurrentUserId();
         verify(subjectRepository).findById(2L);
         verify(userRepository).findById(1L);
         verify(subscriptionRepository, never()).save(any(Subscription.class));
@@ -127,14 +138,14 @@ class SubscriptionServiceTest {
     void testSuscribeToSubject_WhenSubscriptionAlreadyExists_ThenThrowException() {
         Subject subject = buildSubject(2L);
         User user = buildUser(1L);
-        given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+
+        given(authService.getCurrentUserId()).willReturn(1L);
+
         doReturn(true).when(subscriptionService).isSubscribed(1L, 2L);
 
         assertThrows(SubscriptionAlreadyExistsException.class, () -> subscriptionService.suscribeToSubject(2L));
 
-        verify(subjectRepository).findById(2L);
-        verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(subscriptionService).isSubscribed(1L, 2L);
         verify(subscriptionRepository, never()).save(any(Subscription.class));
     }
@@ -148,55 +159,28 @@ class SubscriptionServiceTest {
         subscription.setUser(user);
         subscription.setSubject(subject);
 
-        given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subscriptionRepository.findByUserIdAndSubjectId(1L, 2L)).willReturn(Optional.of(subscription));
 
         MessageResponse response = subscriptionService.unsuscribeToSubject(2L);
 
         assertEquals("désabonnement avec succes ", response.getMessage());
-        verify(subjectRepository).findById(2L);
-        verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(subscriptionRepository).findByUserIdAndSubjectId(1L, 2L);
         verify(subscriptionRepository).delete(subscription);
-    }
-
-    @Test
-    void testUnsuscribeToSubject_WhenSubjectDoesNotExist_ThenThrowException() {
-        given(subjectRepository.findById(2L)).willReturn(Optional.empty());
-
-        assertThrows(SubjectNotFoundWithIdException.class, () -> subscriptionService.unsuscribeToSubject(2L));
-
-        verify(subjectRepository).findById(2L);
-        verify(userRepository, never()).findById(any());
-        verify(subscriptionRepository, never()).delete(any(Subscription.class));
-    }
-
-    @Test
-    void testUnsuscribeToSubject_WhenUserDoesNotExist_ThenThrowException() {
-        Subject subject = buildSubject(2L);
-        given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
-        given(userRepository.findById(1L)).willReturn(Optional.empty());
-
-        assertThrows(UserNotFoundWithIdException.class, () -> subscriptionService.unsuscribeToSubject(2L));
-
-        verify(subjectRepository).findById(2L);
-        verify(userRepository).findById(1L);
-        verify(subscriptionRepository, never()).findByUserIdAndSubjectId(any(), any());
     }
 
     @Test
     void testUnsuscribeToSubject_WhenSubscriptionDoesNotExist_ThenThrowException() {
         Subject subject = buildSubject(2L);
         User user = buildUser(1L);
-        given(subjectRepository.findById(2L)).willReturn(Optional.of(subject));
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subscriptionRepository.findByUserIdAndSubjectId(1L, 2L)).willReturn(Optional.empty());
 
         assertThrows(SubscriptionNotFoundException.class, () -> subscriptionService.unsuscribeToSubject(2L));
 
-        verify(subjectRepository).findById(2L);
-        verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(subscriptionRepository).findByUserIdAndSubjectId(1L, 2L);
         verify(subscriptionRepository, never()).delete(any(Subscription.class));
     }

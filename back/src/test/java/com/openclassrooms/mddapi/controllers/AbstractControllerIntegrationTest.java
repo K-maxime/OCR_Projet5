@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -48,6 +49,9 @@ abstract class AbstractControllerIntegrationTest {
     @Autowired
     protected CommentRepository commentRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     protected void resetDatabase() {
         commentRepository.deleteAll();
         articleRepository.deleteAll();
@@ -70,7 +74,7 @@ abstract class AbstractControllerIntegrationTest {
         User user = new User();
         user.setEmail("john.doe@test.com");
         user.setUsername("john.doe");
-        user.setPassword("Password123!");
+        user.setPassword(passwordEncoder.encode("Password123!"));
         return userRepository.save(user);
     }
 

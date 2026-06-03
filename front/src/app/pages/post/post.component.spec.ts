@@ -6,12 +6,14 @@ import { PostService } from '@app/core/service/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { UserInformation } from '@app/core/models/userInformation.interface';
+import { DatePipe } from '@angular/common';
 
 describe('PostComponent', () => {
   let component: PostComponent;
   let fixture: ComponentFixture<PostComponent>
   let postServiceMock: jest.Mocked<PostService>;
   let routerMock: jest.Mocked<Router>;
+  let datePipe: DatePipe;
 
   const mockAuthor : UserInformation= { userId: 1, username: 'Userexample', email: 'userexample@example.com', message: 'Author of the first article'}
 
@@ -56,8 +58,10 @@ describe('PostComponent', () => {
 
     fixture = TestBed.createComponent(PostComponent);
     component = fixture.componentInstance;
+    datePipe = new DatePipe('en-US');
     fixture.detectChanges();
     await fixture.whenStable();
+
   });
 
   it('should create and load the post data', () => {
@@ -68,10 +72,13 @@ describe('PostComponent', () => {
     const autorComment    = fixture.nativeElement.querySelector('[data-testid="comment-author"]');
     const contentComment = fixture.nativeElement.querySelector('[data-testid="comment-content"]');
 
+    const formattedDate = datePipe.transform(mockPost.createdAt, 'HH\'h\'mm dd/MM/yyyy');
+
+
     expect(component).toBeTruthy();
     expect(backButton).toBeTruthy();
     expect(titlePost.textContent).toContain(mockPost.title);
-    expect(datePost.textContent).toContain(mockPost.createdAt.toString());
+    expect(datePost.textContent).toContain(`Date : ${formattedDate}`);
     expect(authorPost.textContent).toContain(mockPost.author.username);
     expect(autorComment.textContent).toContain(mockPost.comments[0].author.username);
     expect(contentComment.textContent).toContain(mockPost.comments[0].content);

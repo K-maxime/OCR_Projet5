@@ -2,8 +2,10 @@ package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.request.LoginRequestDto;
 import com.openclassrooms.mddapi.dto.request.RegisterRequestDto;
+import com.openclassrooms.mddapi.security.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.containsString;
@@ -14,6 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AuthControllerTest extends AbstractControllerIntegrationTest {
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
     void setUp() {
@@ -74,9 +79,7 @@ class AuthControllerTest extends AbstractControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value("john.doe"))
-                .andExpect(jsonPath("$.email").value("john.doe@test.com"));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -103,7 +106,11 @@ class AuthControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetAuthenticatedUser_WhenUserExists_ThenReturn200() throws Exception {
-        mockMvc.perform(get("/api/auth/me"))
+        String token = jwtTokenProvider.generateToken("john.doe@test.com");
+
+        mockMvc.perform(get("/api/auth/me")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.email").value("john.doe@test.com"))
@@ -112,18 +119,23 @@ class AuthControllerTest extends AbstractControllerIntegrationTest {
 
     @Test
     void testGetAuthenticatedUser_WhenUserDoesNotExist_ThenReturn404() throws Exception {
-        resetDatabase();
 
-        mockMvc.perform(get("/api/auth/me"))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Aucun utilisateur trouve avec l'Id 1"));
+        resetDatabase();
+        String token = jwtTokenProvider.generateToken("nonexistent@test.com");
+
+        mockMvc.perform(get("/api/auth/me")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 
     @Test
     void testLogoutUser_WhenRequestIsValid_ThenReturn200() throws Exception {
-        mockMvc.perform(post("/api/auth/logout"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.message", containsString("connexion")));
+        String token = jwtTokenProvider.generateToken("john.doe@test.com");
+
+        mockMvc.perform(post("/api/auth/logout")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

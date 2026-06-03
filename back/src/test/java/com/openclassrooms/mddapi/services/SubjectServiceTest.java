@@ -40,6 +40,9 @@ class SubjectServiceTest {
     @Mock
     private SubscriptionRepository subscriptionRepository;
 
+    @Mock
+    private AuthenticationService authService;
+
     @InjectMocks
     private SubjectService subjectService;
 
@@ -51,7 +54,7 @@ class SubjectServiceTest {
         SubjectResponseDto javaDto = new SubjectResponseDto(10L, "Java", "Java desc", false);
         SubjectResponseDto springDto = new SubjectResponseDto(11L, "Spring", "Spring desc", false);
 
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subjectRepository.findAll()).willReturn(List.of(java, spring));
         given(subjectMapper.toDto(java)).willReturn(javaDto);
         given(subjectMapper.toDto(spring)).willReturn(springDto);
@@ -63,32 +66,22 @@ class SubjectServiceTest {
         assertEquals(2, result.size());
         assertTrue(result.get(0).isSubscribed());
         assertFalse(result.get(1).isSubscribed());
-        verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(subjectRepository).findAll();
         verify(subjectMapper).toDto(java);
         verify(subjectMapper).toDto(spring);
     }
 
-    @Test
-    void testGetSubjects_WhenUserDoesNotExist_ThenThrowException() {
-        given(userRepository.findById(1L)).willReturn(Optional.empty());
-
-        assertThrows(UserNotFoundWithIdException.class, () -> subjectService.getSubjects());
-
-        verify(userRepository).findById(1L);
-        verify(subjectRepository, never()).findAll();
-    }
 
     @Test
     void testGetSubjects_WhenNoSubjectsExist_ThenReturnEmptyList() {
-        User user = buildUser(1L);
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(subjectRepository.findAll()).willReturn(List.of());
 
         List<SubjectResponseDto> result = subjectService.getSubjects();
 
         assertTrue(result.isEmpty());
-        verify(userRepository).findById(1L);
+        verify(authService).getCurrentUserId();
         verify(subjectRepository).findAll();
     }
 

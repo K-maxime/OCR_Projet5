@@ -59,7 +59,7 @@ describe('FeedComponent', () => {
 
   it('should display the list of sessions', () => {
     const sessionItems = fixture.nativeElement.querySelectorAll('[data-testid="post-item"]');
-    expect(sessionItems.length).toBe(1);
+    expect(sessionItems.length).toBe(2);
   });
 
   it('should display the button "Créer un article" and it should be clickable to navigate to the create post page', () => {

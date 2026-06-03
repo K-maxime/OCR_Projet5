@@ -25,8 +25,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -44,7 +43,6 @@ public class AuthService {
                 .orElseThrow(() -> new UserNotFoundWithLoginOrInvalidPasswordException());
 
         if (!passwordEncoder.matches(password, user.getPassword())){
-            System.out.println("mot de passe incorrect");
             throw new UserNotFoundWithLoginOrInvalidPasswordException();
         }
 

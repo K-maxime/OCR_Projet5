@@ -30,6 +30,9 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AuthenticationService authService;
+
     @Spy
     @InjectMocks
     private UserService userService;
@@ -37,29 +40,36 @@ class UserServiceTest {
     @Test
     void testGetProfile_WhenUserExists_ThenReturnUser() {
         User user = buildUser(1L, "john", "john@mail.com", "Password1!");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         User result = userService.getProfile();
 
         assertSame(user, result);
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
     }
 
     @Test
     void testGetProfile_WhenUserDoesNotExist_ThenThrowException() {
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> userService.getProfile());
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
     }
 
     @Test
     void testGetProfile_WhenRepositoryReturnsEmptyAgain_ThenThrowException() {
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> userService.getProfile());
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
     }
 

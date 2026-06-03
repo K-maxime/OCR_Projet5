@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommentService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.openclassrooms.mddapi.services</a>
+</div>
+
+<h1>Coverage Summary for Class: CommentService (com.openclassrooms.mddapi.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommentService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.openclassrooms.mddapi.services;
+&nbsp;
+&nbsp;import com.openclassrooms.mddapi.dto.request.CreateCommentRequestDto;
+&nbsp;import com.openclassrooms.mddapi.dto.responses.MessageResponse;
+&nbsp;import com.openclassrooms.mddapi.exceptions.ArticleNotFoundWithIdException;
+&nbsp;import com.openclassrooms.mddapi.exceptions.UserNotFoundWithIdException;
+&nbsp;import com.openclassrooms.mddapi.models.Article;
+&nbsp;import com.openclassrooms.mddapi.models.Comment;
+&nbsp;import com.openclassrooms.mddapi.models.User;
+&nbsp;import com.openclassrooms.mddapi.repository.ArticleRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.CommentRepository;
+&nbsp;import com.openclassrooms.mddapi.repository.UserRepository;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;/**
+&nbsp; * Service métier pour la gestion des commentaires
+&nbsp; *
+&nbsp; * Gère :
+&nbsp; * - La création des commentaires
+&nbsp; */
+&nbsp;@Service
+&nbsp;@RequiredArgsConstructor
+&nbsp;public class CommentService {
+&nbsp;    private final CommentRepository commentRepository;
+&nbsp;    private final ArticleRepository articleRepository;
+&nbsp;    private final UserRepository userRepository;
+&nbsp;
+&nbsp;    private final AuthenticationService authService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Crée un nouveau commentaire pour un article donné.
+&nbsp;     *
+&nbsp;     * @param articleId L&#39;ID de l&#39;article à commenter
+&nbsp;     * @param dto   Le contenu du commentaire
+&nbsp;     * @return MessageResponse indiquant le succès de l&#39;opération
+&nbsp;     */
+&nbsp;    public MessageResponse createComment(Long articleId, CreateCommentRequestDto dto) {
+&nbsp;
+<b class="fc">&nbsp;        Long userId = authService.getCurrentUserId();</b>
+&nbsp;
+<b class="fc">&nbsp;        User author = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new UserNotFoundWithIdException(userId));</b>
+&nbsp;
+<b class="fc">&nbsp;        Article article = articleRepository.findById(articleId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ArticleNotFoundWithIdException(articleId));</b>
+&nbsp;
+<b class="fc">&nbsp;        Comment comment = new Comment();</b>
+<b class="fc">&nbsp;        comment.setContent(dto.getContent());</b>
+<b class="fc">&nbsp;        comment.setAuthor(author);</b>
+<b class="fc">&nbsp;        comment.setArticle(article);</b>
+&nbsp;
+<b class="fc">&nbsp;        commentRepository.save(comment);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new MessageResponse(&quot;Comment added successfully!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-27 10:58</div>
+</div>
+</body>
+</html>

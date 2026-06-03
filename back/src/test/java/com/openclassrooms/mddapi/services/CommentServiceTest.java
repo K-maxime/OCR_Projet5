@@ -40,6 +40,9 @@ class CommentServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AuthenticationService authService;
+
     @InjectMocks
     private CommentService commentService;
 
@@ -48,12 +51,15 @@ class CommentServiceTest {
         User author = buildUser(1L);
         Article article = buildArticle(10L);
         CreateCommentRequestDto dto = new CreateCommentRequestDto("Very helpful article");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(author));
         given(articleRepository.findById(10L)).willReturn(Optional.of(article));
 
         MessageResponse response = commentService.createComment(10L, dto);
 
         ArgumentCaptor<Comment> commentCaptor = ArgumentCaptor.forClass(Comment.class);
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(articleRepository).findById(10L);
         verify(commentRepository).save(commentCaptor.capture());
@@ -68,10 +74,13 @@ class CommentServiceTest {
     @Test
     void testCreateComment_WhenAuthorDoesNotExist_ThenThrowException() {
         CreateCommentRequestDto dto = new CreateCommentRequestDto("Very helpful article");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundWithIdException.class, () -> commentService.createComment(10L, dto));
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(articleRepository, never()).findById(any());
         verify(commentRepository, never()).save(any(Comment.class));
@@ -81,11 +90,14 @@ class CommentServiceTest {
     void testCreateComment_WhenArticleDoesNotExist_ThenThrowException() {
         User author = buildUser(1L);
         CreateCommentRequestDto dto = new CreateCommentRequestDto("Very helpful article");
+
+        given(authService.getCurrentUserId()).willReturn(1L);
         given(userRepository.findById(1L)).willReturn(Optional.of(author));
         given(articleRepository.findById(10L)).willReturn(Optional.empty());
 
         assertThrows(ArticleNotFoundWithIdException.class, () -> commentService.createComment(10L, dto));
 
+        verify(authService).getCurrentUserId();
         verify(userRepository).findById(1L);
         verify(articleRepository).findById(10L);
         verify(commentRepository, never()).save(any(Comment.class));
