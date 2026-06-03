@@ -1,390 +1,739 @@
-# FAQ utilisateur
+# ❓ FAQ Utilisateur — MDD
 
-Cette FAQ explique les principaux cas d'usage de l'application MDD, les erreurs courantes rencontrées par les utilisateurs et les solutions possibles.
+> **Guide complet pour bien utiliser l'application MDD**  
+> Trouvez des réponses à vos questions, résolvez les problèmes courants et explorez les fonctionnalités.
 
-## Guide rapide par profil utilisateur
+---
 
-### Je suis un nouveau développeur
-1. [Créer un compte](#comment-créer-un-compte-)
-2. [M'abonner à des thèmes](#comment-sabonner-à-un-thème-)
-3. [Consulter le fil d'actualité](#comment-consulter-les-articles-)
+## 📋 Table des matières
 
-### Je veux publier mon expertise
-1. [Me connecter](#comment-se-connecter-)
-2. [Créer un article](#comment-créer-un-article-)
-3. [Interagir via les commentaires](#comment-commenter-un-article-)
+1. [Guide rapide par profil](#-guide-rapide-par-profil)
+2. [Presentation générale](#-présentation-générale)
+3. [Gestion de compte](#-gestion-de-compte)
+4. [Navigation](#-navigation)
+5. [Thèmes et abonnements](#-thèmes-et-abonnements)
+6. [Articles et fil d'actualité](#-articles-et-fil-dactalité)
+7. [Commentaires](#-commentaires)
+8. [Profil utilisateur](#-profil-utilisateur)
+9. [Erreurs courantes](#-erreurs-courantes)
+10. [Dépannage](#-dépannage-technique)
+11. [Bonnes pratiques](#-bonnes-pratiques-de-sécurité)
 
-### J'ai un problème technique
-→ Voir [Dépannage local](#dépannage-local)
+---
 
-## Présentation générale
+## 🎯 Guide rapide par profil
 
-### À quoi sert l'application MDD ?
+### Je suis nouveau développeur — Je découvre l'app
 
-MDD, pour Monde de Dev, est une application communautaire destinée aux développeurs. Elle permet de consulter des thèmes techniques, de s'abonner aux sujets qui vous intéressent, de lire des articles, de publier du contenu et d'échanger grâce aux commentaires.
+**En 10 minutes, je fais :**
 
-### Qui peut utiliser l'application ?
+1. ✅ [Créer un compte](#comment-créer-un-compte-)
+2. ✅ [M'abonner à 3 thèmes](#comment-sabonner-à-un-thème-)
+3. ✅ [Consulter le fil d'actualité](#comment-consulter-les-articles-)
 
-Tout utilisateur disposant d'un compte peut accéder aux fonctionnalités principales :
+**Temps** : ~10 min | **Prérequis** : Email valide
 
-- consulter le fil d'actualité ;
-- consulter les thèmes ;
-- s'abonner ou se désabonner d'un thème ;
-- créer un article ;
-- commenter un article ;
-- modifier son profil.
+---
 
-Les visiteurs non connectés peuvent uniquement accéder aux pages d'accueil, de connexion et d'inscription.
+### Je veux partager mon expertise — Je publie des articles
 
-## Compte utilisateur
+**Ma checklist :**
+
+1. ✅ [Me connecter](#comment-se-connecter-)
+2. ✅ [Créer un article](#comment-créer-un-article-)
+3. ✅ [Répondre aux commentaires](#comment-commenter-un-article-)
+
+**Temps** : ~15 min par article | **Prérequis** : Compte créé
+
+---
+
+### J'ai une erreur — Je dépanne vite
+
+**Diagnostic rapide :**
+
+| Symptôme | Section |
+| --- | --- |
+| Page blanche, rien ne charge | [Dépannage technique](#dépannage-technique) |
+| Impossible de se connecter | [Gestion de compte](#-gestion-de-compte) |
+| Message d'erreur bizarre | [Erreurs courantes](#-erreurs-courantes) |
+
+---
+
+## 💡 Présentation générale
+
+### À quoi sert MDD ?
+
+**MDD** (*Monde de Dev*) est une **plateforme communautaire pour développeurs**.
+
+Elle permet de :
+- 📚 Consulter des **thèmes techniques** (JavaScript, Python, DevOps, etc.)
+- 📰 Lire des **articles** publiés par la communauté
+- ✍️ **Publier vos propres articles** et partager votre expertise
+- 💬 **Commenter** et discuter avec d'autres devs
+- 🔔 **Personnaliser votre expérience** en vous abonnant aux sujets qui vous intéressent
+
+**En résumé** : C'est LinkedIn pour les devs, mais open et décentralisé. 🚀
+
+---
+
+### Qui peut utiliser MDD ?
+
+#### ✅ Connecté
+
+Vous avez accès à **toutes les fonctionnalités** :
+
+```
+├─ Consulter le fil d'actualité
+├─ Consulter les thèmes
+├─ S'abonner/désabonner aux thèmes
+├─ Créer un article
+├─ Consulter un article en détail
+├─ Commenter un article
+└─ Modifier votre profil
+```
+
+#### ❌ Non connecté
+
+Vous ne pouvez accéder qu'à :
+- Page d'accueil
+- Page de connexion
+- Page d'inscription
+
+**Astuce** : Si une page vous redirige vers la connexion, c'est qu'elle est protégée.
+
+---
+
+## 🔐 Gestion de compte
 
 ### Comment créer un compte ?
 
-Depuis la page d'accueil, cliquez sur `S'inscrire`, puis renseignez :
+**Étape 1 : Aller sur la page d'inscription**
 
-- une adresse email valide ;
-- un nom d'utilisateur ;
-- un mot de passe.
+Depuis la page d'accueil, cliquez sur `S'inscrire` (bouton en haut à droite).
 
-Le mot de passe doit contenir au minimum :
+**Étape 2 : Remplir le formulaire**
 
-- 8 caractères ;
-- une majuscule ;
-- une minuscule ;
-- un chiffre ;
-- un caractère spécial.
+Vous devez entrer :
+
+| Champ | Règle | Exemple |
+| --- | --- | --- |
+| **Email** | Format valide | alice@example.com |
+| **Nom d'utilisateur** | Unique, pas d'espaces | alice_dev ou aliceDev |
+| **Mot de passe** | Min 8 caractères + majuscule + minuscule + chiffre + spécial | MyPass@123 |
+
+**Exigences du mot de passe** :
+
+```
+❌ "password"           → Pas assez sécurisé
+❌ "Password1"        → Pas de caractère spécial
+❌ "PASSWORD@123"     → Pas de minuscule
+✅ "MyPass@2025"      → Valide !
+```
+
+**Étape 3 : Valider**
+
+Cliquez sur `S'enregistrer`. Vous êtes redirigé vers le fil d'actualité et connecté automatiquement. 🎉
+
+---
 
 ### Pourquoi mon inscription échoue ?
 
-Les causes les plus fréquentes sont :
-
-| Problème | Cause possible | Solution |
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Email refusé | L'adresse email n'est pas au bon format. | Vérifier le format, par exemple `nom@email.com`. |
-| Mot de passe refusé | Le mot de passe ne respecte pas les règles de sécurité. | Ajouter une majuscule, une minuscule, un chiffre et un caractère spécial. |
-| Compte déjà existant | L'email ou le nom d'utilisateur est déjà utilisé. | Utiliser une autre adresse email ou un autre nom d'utilisateur. |
-| Champ obligatoire vide | Un champ requis n'a pas été rempli. | Compléter tous les champs du formulaire. |
+| **Email refusé** | Format invalide | Utiliser format complet : nom@domaine.ext |
+| **Email déjà utilisé** | Compte existant | Utiliser une autre adresse ou [se connecter](#comment-se-connecter-) |
+| **Mot de passe refusé** | Ne respecte pas les règles | Ajouter majuscule + minuscule + chiffre + spécial |
+| **Champ vide** | Un champ obligatoire manque | Compléter tous les champs en rouge |
+| **Erreur serveur** | Backend ne répond pas | Vérifier que le backend tourne sur http://localhost:9090 |
+
+---
 
 ### Comment se connecter ?
 
-Depuis la page d'accueil, cliquez sur `Se connecter`, puis renseignez :
+**Étape 1 : Aller sur la page de connexion**
 
-- votre email ou votre nom d'utilisateur ;
-- votre mot de passe.
+Depuis la page d'accueil, cliquez sur `Se connecter`.
 
-Après connexion, l'application enregistre un token d'authentification dans la session du navigateur. Ce token permet d'accéder aux pages protégées.
+**Étape 2 : Entrer vos identifiants**
+
+```
+┌────────────────────────────┐
+│ Email ou nom d'utilisateur │
+│ [________________________] │
+│                            │
+│ Mot de passe               │
+│ [________________________] │
+│                            │
+│ [Se connecter]             │
+└────────────────────────────┘
+```
+
+**Vous pouvez utiliser :**
+- Votre email : `alice@example.com`
+- OU votre nom d'utilisateur : `alice_dev`
+
+**Étape 3 : Accéder à l'appli**
+
+Vous êtes redirigé vers le fil d'actualité. ✅
+
+**Données stockées** : Votre token JWT est conservé dans la session du navigateur. Vous restez connecté jusqu'à :
+- Vous cliquez sur "Déconnexion"
+- Vous fermez le navigateur
+- 24h (expiration du token)
+
+---
 
 ### Pourquoi je n'arrive pas à me connecter ?
 
-| Problème | Cause possible | Solution |
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Message d'erreur à la connexion | Identifiant ou mot de passe incorrect. | Vérifier l'email, le nom d'utilisateur et le mot de passe. |
-| Bouton désactivé | Le formulaire est invalide ou incomplet. | Remplir tous les champs obligatoires. |
-| Retour à la page de connexion | La session est absente ou expirée. | Se reconnecter. |
-| Erreur serveur | L'API backend n'est peut-être pas lancée. | Vérifier que le backend est disponible sur `http://localhost:9090`. |
+| **Erreur "identifiants invalides"** | Email/username ou password incorrect | Vérifier la casse du password et l'email/username exact |
+| **Bouton désactivé** | Formulaire incomplet | Remplir les 2 champs (email/username + password) |
+| **Redirection vers connexion** | Session expirée | Se reconnecter |
+| **Erreur 401** | Token invalide ou expiré | Se reconnecter |
+| **Erreur 500** | Backend en erreur | Vérifier que le backend tourne sur http://localhost:9090 |
+| **Page blanche** | API ne répond pas | Attendre quelques secondes et réessayer |
 
-### Comment se déconnecter ?
+**Je suis bloqué** :
+1. Fermer l'onglet du navigateur complètement
+2. Rouvrir et aller sur http://localhost:4200
+3. Réessayer la connexion
 
-Utilisez le bouton de déconnexion dans l'interface. La déconnexion supprime le token de session côté frontend. Après déconnexion, les pages protégées ne sont plus accessibles.
+---
 
-## Navigation
+### Comment me déconnecter ?
+
+**Option 1 : Bouton Déconnexion**
+
+Cliquez sur votre nom d'utilisateur en haut à droite → `Déconnexion`.
+
+Vous êtes redirigé vers la page d'accueil.
+
+**Option 2 : Fermer l'app**
+
+Fermer le navigateur supprime aussi le token.
+
+**Qu'arrive-t-il après** :
+- ✅ Votre token JWT est supprimé
+- ✅ Les pages protégées ne sont plus accessibles
+- ✅ Vous êtes redirigé vers la page de connexion en cas d'accès
+
+---
+
+## 🧭 Navigation
 
 ### Pourquoi certaines pages ne sont pas accessibles ?
 
-Les pages suivantes nécessitent une connexion :
+**Pages protégées** (nécessitent une connexion) :
 
-- fil d'actualité ;
-- création d'article ;
-- détail d'un article ;
-- thèmes ;
-- profil utilisateur.
+```
+✅ Connecté   → Accès à tout
+├─ Fil d'actualité
+├─ Articles détail
+├─ Création d'article
+├─ Thèmes & Abonnements
+└─ Profil utilisateur
 
-Si vous tentez d'accéder à une page protégée sans être connecté, l'application vous redirige vers le parcours d'authentification.
+❌ Non connecté → Redirection vers connexion
+```
 
-### Que faire si une page n'existe pas ?
+**Si vous tentez d'accéder à une page protégée** :
 
-Si l'URL ne correspond à aucune route connue, l'application affiche une page `Not Found`. Dans ce cas, revenez à l'accueil ou utilisez la navigation de l'application.
+```
+Vous êtes redirigé automatiquement vers :
+/login → Vous vous connectez → Vous pouvez accéder à la page
+```
 
-## Thèmes et abonnements
+**Astuce** : Gardez l'URL en tête. Après connexion, vous serez redirigé vers la page que vous aviez demandée.
+
+---
+
+### Que faire si une page n'existe pas (404) ?
+
+**Vous voyez "Not Found"** ou "Page non trouvée"
+
+**Cause** : L'URL ne correspond à aucune route de l'app
+
+**Solution** :
+1. Cliquez sur le logo pour revenir à l'accueil
+2. Utilisez la navigation (menu en haut)
+3. Vérifiez l'URL dans la barre d'adresse
+
+**Exemple** : 
+```
+❌ http://localhost:4200/articles/999999  → Article inexistant
+✅ http://localhost:4200/                  → Retour à l'accueil
+```
+
+---
+
+## 📚 Thèmes et abonnements
 
 ### À quoi servent les thèmes ?
 
-Les thèmes permettent de regrouper les articles par sujet technique. Un utilisateur peut s'abonner aux thèmes qui l'intéressent afin de personnaliser son expérience.
+**Les thèmes groupent les articles par sujet technique.**
+
+Exemples de thèmes :
+- JavaScript
+- Python
+- DevOps
+- Cloud
+- Base de données
+- Sécurité
+- etc.
+
+**Pourquoi s'abonner** :
+
+```
+SANS abonnement                         AVEC abonnement
+─────────────────────────────────────────────────────────────
+Pas d'articles dans le fil             Fil personnalisé
+```
+
+---
 
 ### Comment s'abonner à un thème ?
 
-Depuis la page des thèmes, cliquez sur le bouton d'abonnement du thème souhaité.
+**Étape 1 : Aller à la page Thèmes**
 
-Si l'abonnement réussit, l'état du thème est mis à jour et le thème apparaît comme déjà suivi.
+Menu → `Thèmes`
+
+**Étape 2 : Sélectionner un thème**
+
+Vous voyez la liste de tous les thèmes disponibles.
+
+**Étape 3 : Cliquer sur le bouton**
+
+```
+┌──────────────────────────┐
+│ JavaScript               │
+│ [S'abonner]              │ ← Cliquez ici
+└──────────────────────────┘
+```
+
+**Étape 4 : Confirmation**
+
+Le bouton devient `Déja abonné`. Vous êtes abonné. ✅
+
+**Effet immédiat** :
+- Articles de ce thème apparaissent dans votre fil
+- Vous recevez les nouveaux articles du thème
+
+---
 
 ### Pourquoi je ne peux pas m'abonner à un thème ?
 
-| Problème | Cause possible | Solution |
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Vous êtes déjà abonné | L'abonnement existe déjà. | Aucune action nécessaire. |
-| Thème introuvable | Le thème demandé n'existe pas ou son identifiant est invalide. | Recharger la page des thèmes. |
-| Erreur d'authentification | La session utilisateur n'est plus valide. | Se reconnecter. |
-| Erreur réseau | Le backend n'est pas disponible. | Vérifier que l'API est lancée. |
+| **Bouton grisé** | Vous êtes déjà abonné | Regardez le bouton, il dit "Désabonner" |
+| **Erreur 404** | Le thème n'existe pas | Recharger la page des thèmes |
+| **Erreur 401** | Session expirée | Se reconnecter |
+| **Erreur 500** | Backend en erreur | Attendre et réessayer |
+| **Rien ne se passe** | Mauvaise connexion | Vérifier que l'API répond (Swagger) |
 
-### Comment se désabonner d'un thème ?
+**Test rapide** :
+1. Recharger la page (`F5`)
+2. Vérifier l'état du thème
+3. Réessayer
 
-Depuis la page profil, utilisez le bouton de désabonnement associé au thème. Après désabonnement, la liste des thèmes suivis est mise à jour.
+---
 
-### Pourquoi je ne peux pas me désabonner ?
+### Comment me désabonner d'un thème ?
 
-Les causes possibles sont :
+Profil → Section "Vos abonnements" → Cliquer `Désabonner`
 
-- l'abonnement n'existe plus ;
-- le thème n'existe pas ;
-- la session utilisateur a expiré ;
-- l'API backend ne répond pas.
+**Après désabonnement** :
+- Articles du thème disparaissent de votre fil
+- Le thème redevient "S'abonner"
 
-La solution la plus simple consiste à recharger la page, puis à se reconnecter si nécessaire.
+---
 
-## Articles
+## 📰 Articles et fil d'actualité
 
 ### Comment consulter les articles ?
 
-Après connexion, accédez au fil d'actualité. Les articles disponibles y sont affichés avec leurs informations principales.
+**Étape 1 : Aller au fil d'actualité**
+
+Menu → `Fil d'actualité` (après connexion)
+
+**Étape 2 : Voir les articles**
+
+```
+┌──────────────────────────────────────────┐
+│ [Article 1]                              │
+│ Auteur: Alice | Thème: JavaScript        │
+│ "Introduction à React"                   │
+│ [Lire l'article]                         │
+├──────────────────────────────────────────┤
+│ [Article 2]                              │
+│ Auteur: Bob | Thème: DevOps              │
+│ "Docker pour débutants"                  │
+│ [Lire l'article]                         │
+└──────────────────────────────────────────┘
+```
+
+**Étape 3 : Cliquer pour voir le détail**
+
+Cliquez sur un article pour lire le contenu complet et commenter.
+
+**Par défaut** : Articles triés du plus récent au plus ancien.
+
+---
 
 ### Comment trier les articles ?
 
-Le backend accepte deux valeurs de tri :
+**Tri disponible** :
 
-- `desc` pour afficher les articles du plus récent au plus ancien ;
-- `asc` pour afficher les articles du plus ancien au plus récent.
+| Ordre | Description | Commande |
+| --- | --- | --- |
+| **Décroissant** (défaut) | Plus récent → Plus ancien | `?sort=desc` |
+| **Croissant** | Plus ancien → Plus récent | `?sort=asc` |
 
-Si aucun tri n'est précisé, le tri par défaut est décroissant.
+**Exécuter le tri** :
 
-### Pourquoi le tri ne fonctionne pas ?
+Utiliser le selector de tri dans l'interface, ou ajouter à l'URL :
 
-Si une valeur autre que `asc` ou `desc` est envoyée, l'API renvoie une erreur de type `400 Bad Request`.
+```
+http://localhost:4200/articles?sort=asc    → Articles du plus ancien
+http://localhost:4200/articles?sort=desc   → Articles du plus récent
+http://localhost:4200/articles             → Défaut (desc)
+```
 
-Solution : utiliser uniquement `asc` ou `desc`.
+**Erreur si** :
+- Valeur autre que `asc` ou `desc` → API renvoie erreur 400
+- Solution : Utiliser uniquement `asc` ou `desc`
+
+---
 
 ### Comment créer un article ?
 
-Depuis la page de création d'article, renseignez :
+**Étape 1 : Aller à "Créer un article"**
 
-- un thème ;
-- un titre ;
-- un contenu.
+Menu → `Créer un article`
 
-Tous les champs sont obligatoires. Une fois le formulaire validé, l'article est créé et associé à l'utilisateur connecté.
+**Étape 2 : Remplir le formulaire**
 
-### Pourquoi la création d'article échoue ?
+```
+┌─────────────────────────────────────┐
+│ Thème *                             │
+│ [Sélectionner un thème ▼]           │
+│                                     │
+│ Titre *                             │
+│ [Introduction à TypeScript.......]  │
+│                                     │
+│ Contenu *                           │
+│ [TypeScript est un sur-ensemble.... │
+│  ............................... ]   │
+│                                     │
+│ [Publier]                           │
+└─────────────────────────────────────┘
+```
 
-| Problème | Cause possible | Solution |
+**Champs obligatoires** :
+- **Thème** : Sélectionner dans la liste
+- **Titre** : Max 200 caractères
+- **Contenu** : Votre article (min 10 caractères)
+
+**Étape 3 : Publier**
+
+Cliquez `Créer`. Votre article apparaît dans le fil. 🎉
+
+---
+
+### Pourquoi la création échoue ?
+
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Thème manquant | Aucun thème n'a été sélectionné. | Sélectionner un thème. |
-| Titre vide | Le titre est obligatoire. | Renseigner un titre. |
-| Contenu vide | Le contenu est obligatoire. | Renseigner le contenu de l'article. |
-| Thème introuvable | Le thème sélectionné n'existe plus. | Recharger la liste des thèmes. |
-| Session expirée | Le token d'authentification n'est plus valide. | Se reconnecter. |
+| **Thème manquant** | Aucun thème sélectionné | Ouvrir le dropdown et sélectionner |
+| **Titre vide** | Champ non rempli | Entrer un titre |
+| **Contenu vide** | Champ non rempli | Entrer le contenu de l'article |
+| **Thème inexistant** | ID invalide | Recharger et sélectionner un thème valide |
+| **Session expirée** | Token invalide | Se reconnecter |
+| **Erreur 500** | Erreur serveur | Vérifier les logs et réessayer |
+
+---
 
 ### Pourquoi un article est introuvable ?
 
-Un article peut être introuvable si :
+| Cas | Cause | Solution |
+| --- | --- | --- |
+| URL modifiée manuellement | ID d'article invalide | Retourner au fil et ouvrir depuis la liste |
+| Article supprimé | Modérateur a supprimé | Voir la section "Gestion de contenu" |
+| Mauvais lien | Lien cassé | Copier l'URL correcte depuis le fil |
 
-- l'identifiant dans l'URL est incorrect ;
-- l'article n'existe plus ;
-- l'URL a été modifiée manuellement.
+---
 
-Dans ce cas, retournez au fil d'actualité et ouvrez l'article depuis la liste.
-
-## Commentaires
+## 💬 Commentaires
 
 ### Comment commenter un article ?
 
-Ouvrez le détail d'un article, écrivez votre commentaire dans le champ prévu, puis validez l'envoi.
+**Étape 1 : Ouvrir un article**
+
+Fil d'actualité → Cliquer sur un article
+
+**Étape 2 : Aller à la section commentaires**
+
+Scroller jusqu'en bas → Section "Commentaires"
+
+**Étape 3 : Écrire votre commentaire**
+
+```
+┌─────────────────────────────────────┐
+│ Votre commentaire                   │
+│ [.................................] │
+│ [.................................] │
+│                                     │
+│ [Envoyer]                           │
+└─────────────────────────────────────┘
+```
+
+**Étape 4 : Envoyer**
+
+Cliquez `Envoyer`. Votre commentaire apparaît immédiatement. ✅
+
+---
 
 ### Pourquoi mon commentaire n'est pas envoyé ?
 
-| Problème | Cause possible | Solution |
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Commentaire vide | Le contenu est obligatoire. | Écrire un commentaire avant l'envoi. |
-| Article introuvable | L'article n'existe pas ou l'URL est incorrecte. | Revenir au fil d'actualité et rouvrir l'article. |
-| Session expirée | Le token utilisateur est absent ou invalide. | Se reconnecter. |
-| Erreur réseau | Le backend ne répond pas. | Vérifier que l'API est lancée. |
+| **Champ vide** | Contenu absent | Écrire un commentaire avant d'envoyer |
+| **Article inexistant** | URL incorrecte | Revenir au fil et ouvrir depuis la liste |
+| **Bouton désactivé** | Formulaire invalide | Remplir le champ |
+| **Session expirée** | Token expiré | Se reconnecter |
+| **Erreur 500** | Serveur en erreur | Attendre et réessayer |
 
-## Profil utilisateur
+---
+
+## 👤 Profil utilisateur
 
 ### Que puis-je modifier dans mon profil ?
 
-La page profil permet de modifier :
+**Sections modifiables** :
 
-- l'adresse email ;
-- le nom d'utilisateur ;
-- le mot de passe.
+```
+┌─────────────────────────────────────┐
+│ Email                               │
+│ [alice@example.com..................] │
+│                                     │
+│ Nom d'utilisateur                   │
+│ [alice_dev.................] │
+│                                     │
+│ Mot de passe                        │
+│ [••••••••••..................] │
+│                                     │
+│ [Enregistrer les modifications]     │
+└─────────────────────────────────────┘
+```
 
-Les règles de validation sont les mêmes que lors de l'inscription.
+**Vos abonnements** (lecture seule) :
+- Liste des thèmes auxquels vous êtes abonné
+- Bouton "Désabonner" pour chaque thème
+
+---
 
 ### Pourquoi la mise à jour du profil échoue ?
 
-| Problème | Cause possible | Solution |
+| Problème | Cause | Solution |
 | --- | --- | --- |
-| Email invalide | L'adresse email n'est pas au bon format. | Corriger l'email. |
-| Nom d'utilisateur vide | Le champ username est obligatoire. | Renseigner un nom d'utilisateur. |
-| Mot de passe invalide | Le mot de passe ne respecte pas les règles de sécurité. | Utiliser un mot de passe plus robuste. |
-| Email ou username déjà utilisé | Les informations sont déjà associées à un autre compte. | Choisir d'autres informations. |
-| Erreur d'authentification | La session n'est plus valide. | Se reconnecter. |
+| **Email invalide** | Format incorrect | Utiliser format complet : nom@domaine.ext |
+| **Email utilisé** | Déjà associé à un compte | Choisir une autre adresse |
+| **Username vide** | Champ obligatoire | Entrer un nom d'utilisateur |
+| **Username utilisé** | Déjà pris | Choisir un autre username |
+| **Mot de passe faible** | Ne respecte pas les règles | Ajouter majuscule + minuscule + chiffre + spécial |
+| **Mot de passe incorrect** | Ancien password faux | Vérifier le password actuel |
+| **Session expirée** | Token expiré | Se reconnecter |
 
-## Scénarios complets
+---
 
-### Scénario 1 : Je m'inscris et découvre des articles
-
-1. Cliquez sur `S'inscrire` depuis la page d'accueil
-2. Remplissez le formulaire (email, username, mot de passe robuste)
-3. Cliquez sur `S'enregistrer`
-4. Vous êtes redirigé vers le fil d'actualité
-5. Consultez les articles publiés par d'autres développeurs
-
-**Durée** : 2 minutes
-**Prérequis** : Email valide, mot de passe robuste
-
-### Scénario 2 : Je publie un article technique
-
-1. Allez dans `Créer un article`
-2. Sélectionnez un thème (ex. "JavaScript")
-3. Entrez un titre : "Comment optimiser les boucles"
-4. Entrez votre contenu technique
-5. Cliquez `Publier`
-6. L'article apparaît immédiatement dans le fil des autres utilisateurs
-
-**Durée** : 5 minutes
-**Prérequis** : Être connecté
-
-## Erreurs courantes
+## ❌ Erreurs courantes
 
 ### Erreur 400 Bad Request
 
-Cette erreur indique généralement que les données envoyées ne sont pas valides.
+**Signification** : Les données que vous envoyez sont invalides.
 
-Exemples :
+**Exemples** :
+- Email au mauvais format
+- Mot de passe trop faible
+- Titre d'article vide
+- Tri avec valeur autre que `asc` / `desc`
 
-- email au mauvais format ;
-- mot de passe trop faible ;
-- titre d'article vide ;
-- commentaire vide ;
-- tri différent de `asc` ou `desc`.
+**Solution** : Vérifier les champs du formulaire ou l'URL.
 
-Solution : vérifier les champs du formulaire ou la valeur envoyée à l'API.
+---
 
 ### Erreur 401 Unauthorized
 
-Cette erreur indique que l'utilisateur n'est pas authentifié ou que son token est invalide.
+**Signification** : Vous n'êtes pas authentifié ou votre token est expiré.
 
-Solutions :
+**Cas** :
+- Vous êtes non connecté
+- Votre session a expiré (24h)
+- Vous avez fermé le navigateur
 
-- se reconnecter ;
-- vérifier que le navigateur accepte le stockage de session ;
-- fermer puis rouvrir l'application ;
-- vérifier que le backend est bien lancé.
+**Solution** :
+1. Se reconnecter
+2. Vérifier que le navigateur accepte les cookies/sessionStorage
+3. Fermer et rouvrir l'app
+
+---
 
 ### Erreur 404 Not Found
 
-Cette erreur indique que la ressource demandée n'existe pas.
+**Signification** : La ressource demandée n'existe pas.
 
-Exemples :
+**Exemples** :
+- Article ID 999 n'existe pas
+- Thème supprimé
+- URL mal écrite
 
-- article introuvable ;
-- thème introuvable ;
-- abonnement introuvable ;
-- URL incorrecte.
+**Solution** : Revenir en arrière et accéder depuis la navigation.
 
-Solution : revenir à la page précédente, recharger les données, puis réessayer depuis l'interface.
+---
 
 ### Erreur 409 Conflict
 
-Cette erreur indique qu'une action entre en conflit avec une donnée existante.
+**Signification** : Action en conflit avec une ressource existante.
 
-Exemples :
+**Exemples** :
+- Email déjà utilisé
+- Nom d'utilisateur déjà pris
+- Abonnement déjà existant
 
-- email ou nom d'utilisateur déjà utilisé ;
-- abonnement déjà existant.
+**Solution** : Utiliser des valeurs différentes ou vérifier l'état actuel.
 
-Solution : utiliser une autre valeur ou vérifier l'état actuel de l'action.
+---
 
-## Dépannage local
+### Erreur 500 Internal Server Error
 
-### Le frontend ne charge pas les données
+**Signification** : Erreur côté serveur (backend).
 
-Vérifiez que le backend est lancé sur :
+**Cas** :
+- Base de données indisponible
+- Backend en erreur
+- Ressource corrompue
 
-```text
-http://localhost:9090
+**Solution** :
+1. Attendre quelques secondes
+2. Recharger la page
+3. Vérifier que le backend tourne sur http://localhost:9090
+4. Regarder les logs du backend
+
+---
+
+## 🔧 Dépannage technique
+
+### Le frontend ne charge pas
+
+**Symptôme** : Page blanche, rien n'apparaît.
+
+**Checklist** :
+
+```
+1. ✅ Frontend lancé ?
+   → http://localhost:4200 dans la barre d'adresse
+   → Doit voir quelque chose
+
+2. ✅ Backend lancé ?
+   → http://localhost:9090/swagger-ui/index.html doit répondre
+   
+3. ✅ Console navigateur
+   → Ouvrir F12 → Onglet Console
+   → Chercher erreurs en rouge
+
+4. ✅ Vider le cache
+   → Ctrl+Maj+Suppr (Windows) ou Cmd+Maj+Suppr (Mac)
+   → Cocher "Cache"
+   → Rafraîchir
 ```
 
-Vérifiez aussi que le frontend est lancé sur :
-
-```text
-http://localhost:4200
-```
-
-Le backend autorise actuellement les requêtes CORS provenant de `http://localhost:4200`.
-
-### L'application affiche des erreurs réseau
-
-Les causes possibles sont :
-
-- le backend n'est pas lancé ;
-- le port `9090` est déjà utilisé ;
-- la base de données MySQL n'est pas disponible ;
-- l'URL de l'API appelée par le frontend n'est pas correcte.
-
-Solution : lancer le backend, vérifier la configuration MySQL, puis recharger l'application.
+---
 
 ### Le backend ne démarre pas
 
-Vérifiez les points suivants :
+**Checklist** :
 
-- Java 21 est installé ;
-- MySQL est lancé ;
-- la base `mdd_database` existe ;
-- les identifiants MySQL sont correctement renseignés si votre installation les exige ;
-- le port `9090` est disponible.
+```
+1. ✅ Java 21 installé ?
+   → Terminal : java -version
+   → Doit afficher Java 21.x
 
-### La connexion à la base de données échoue
+2. ✅ MySQL lancé ?
+   → Terminal : mysql -u root -p
+   → Doit se connecter
 
-Créer la base si elle n'existe pas :
+3. ✅ Base mdd_database existe ?
+   → MySQL : SHOW DATABASES;
+   → Doit contenir "mdd_database"
 
-```sql
-CREATE DATABASE mdd_database;
+4. ✅ application.properties correct ?
+   → Vérifier back/src/main/resources/application.properties
+   → URL : jdbc:mysql://localhost:3306/mdd_database
+
+5. ✅ Logs du backend
+   → Terminal : cd back && ./mvnw spring-boot:run
+   → Chercher erreurs en rouge
 ```
 
-Puis vérifier la configuration dans :
+---
 
-```text
-back/src/main/resources/application.properties
+### Données cellulaires / Hors ligne
+
+**Consommation** :
+- Par session : ~2 MB
+- Images : compressées automatiquement
+
+**Mode hors ligne** :
+- Certaines pages se chargent en cache si déjà visitées
+- Édition impossible (besoin de connexion)
+
+---
+
+## 🔒 Bonnes pratiques de sécurité
+
+### Protéger votre compte
+
+```
+✅ DO
+├─ Utiliser un mot de passe robuste (12+ caractères)
+├─ Ne pas partager vos identifiants
+├─ Se déconnecter après utilisation
+├─ Utiliser une connexion sécurisée (HTTPS en prod)
+└─ Changer le password régulièrement
+
+❌ DON'T
+├─ Utiliser "password123"
+├─ Partager votre token
+├─ Laisser l'app ouverte sur un ordi partagé
+├─ Modifier manuellement les URLs
+└─ Éditer le localStorage (navigateur)
 ```
 
-Si MySQL demande un utilisateur et un mot de passe, ajouter :
+### HTTPS en production
 
-```properties
-spring.datasource.username=votre_utilisateur
-spring.datasource.password=votre_mot_de_passe
+**Avant de déployer**, utiliser HTTPS :
+
+```
+🔒 https://mdd.example.com  ← Sécurisé
+🔓 http://localhost:4200    ← Développement local
 ```
 
-### Le frontend ne démarre pas
+---
 
-Depuis le dossier `front`, vérifier que les dépendances sont installées :
+## 📞 Besoin d'aide ?
 
-```bash
-npm install
-```
+### Je n'ai pas trouvé ma réponse
 
-Puis lancer l'application :
+1. Chercher dans cette FAQ (Ctrl+F)
+2. Vérifier les logs du navigateur (F12)
+3. Vérifier l'état du backend (Swagger)
+4. Contacter l'équipe dev
 
-```bash
-npm start
-```
+### Signaler un bug
 
-Si une erreur apparaît, vérifier la version de Node.js et supprimer puis réinstaller les dépendances si nécessaire.
+1. Reproduire le problème
+2. Noter les étapes exactes
+3. Captures d'écran du problème
+4. Contacter l'équipe dev
 
-## Bonnes pratiques utilisateur
 
-- Utiliser un mot de passe robuste et unique.
-- Se déconnecter après utilisation sur un ordinateur partagé.
-- Ne pas modifier manuellement les URL d'articles ou de thèmes.
-- Recharger la page si une donnée semble obsolète après un abonnement ou un désabonnement.
-- Vérifier que le backend est lancé avant de tester les fonctionnalités connectées.
